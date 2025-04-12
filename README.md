@@ -4,7 +4,7 @@
 - 💞️ I’m looking to collaborate on different projects in order to get my feet wet. 
 - 📫 How to reach me ? On my gmail account at behongonemesalexandre@gmail.com
 - 😄 Pronouns: He / Him 
-- ⚡ Fun fact: You can reach me for some advise and need for my input in the legal aspects of your projet. But I am also looking for basic projects to learn more. 
+- ⚡ Fun fact: You can reach me for some advise and if you need my input in the legal aspects of your projet. But I am also looking for basics projects to learn more. 
 
 <!---
 BenAl237/BenAl237 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
