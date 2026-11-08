@@ -1008,7 +1008,8 @@ function vSpace(){
   ${pl.length?`<div class="tbl"><table><thead><tr><th>${t('th_date')}</th><th>${t('th_proj')}</th><th>${t('th_amt')}</th><th>${t('th_pay')}</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="empty">${t('no_p')} <a href="#explorer">${t('discover')}</a></div>`}
   <p class="hint" style="margin-top:14px">${t('local')}</p></section>`;
 }
-function foot(){return `<footer class="foot"><strong>SarakaFund</strong><span>${t('foot')}</span></footer>`}
+const OP={fr:'Plateforme gérée par NémèsFund SRL, société de droit belge.',en:'Platform operated by NémèsFund SRL, a Belgian company.',nl:'Platform beheerd door NémèsFund SRL, een Belgische vennootschap.',de:'Plattform betrieben von der NémèsFund SRL, einer belgischen Gesellschaft.',es:'Plataforma gestionada por NémèsFund SRL, sociedad de derecho belga.',pt:'Plataforma gerida pela NémèsFund SRL, sociedade de direito belga.',it:'Piattaforma gestita da NémèsFund SRL, società di diritto belga.',ru:'Платформу управляет NémèsFund SRL, бельгийская компания.',zh:'本平台由比利时公司 NémèsFund SRL 运营。'};
+function foot(){const L=(typeof lang!=='undefined'&&lang)||'fr';return `<footer class="foot"><strong>SarakaFund</strong><span>${OP[L]||OP.en}</span><span>${t('foot')}</span></footer>`}
 /* ---------- routeur ---------- */
 function chrome(key){
   const L=[['accueil','nav_home','tab_home'],['explorer','nav_explore','tab_explore'],['comment','nav_how'],['espace','nav_space','tab_space']];
