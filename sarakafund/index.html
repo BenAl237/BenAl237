@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0F4A38">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>SarakaFund</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky top bar + single-column app views; bottom tab bar on phones. Wax-print motifs only on project covers. */
+:root{
+  --bg:#F4F6F1; --surface:#FFFFFF; --ink:#12261D; --muted:#53645A; --line:#DCE2D9;
+  --brand:#0F4A38; --on-brand:#FFFFFF; --gold:#E9A820; --hib:#B8325A; --ok:#1E7B52; --soft:#E7EEE6;
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1612; --surface:#15221B; --ink:#E9F0EA; --muted:#9BAEA2; --line:#26372D;
+  --brand:#38B98A; --on-brand:#04130C; --gold:#F0B73A; --hib:#E0678A; --ok:#4CC28D; --soft:#1B2C23; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1612; --surface:#15221B; --ink:#E9F0EA; --muted:#9BAEA2; --line:#26372D;
+  --brand:#38B98A; --on-brand:#04130C; --gold:#F0B73A; --hib:#E0678A; --ok:#4CC28D; --soft:#1B2C23; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 84px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(2.2rem,7vw,4rem);font-weight:800}
+h2{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{display:flex;align-items:center;gap:14px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.35rem;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,var(--gold) 0 30%,var(--brand) 31% 62%,var(--hib) 63%)}
+.nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px;margin-left:auto;align-items:center}
+:root:lang(zh){--f-display:system-ui,'PingFang SC','Microsoft YaHei',sans-serif;--f-body:system-ui,'PingFang SC','Microsoft YaHei',sans-serif}
+.nav a{padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:500;color:var(--muted)}
+.nav a[aria-current="page"]{color:var(--ink);background:var(--soft)}
+.nav a.btn{color:var(--on-brand)}
+.langsel{width:auto;padding:7px 10px;font-weight:600}
+.tabs{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 20px;font-weight:600;cursor:pointer;text-decoration:none;background:var(--brand);color:var(--on-brand)}
+.btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.gold{background:var(--gold);color:#241a00}
+.btn.sm{padding:8px 14px;font-size:.9rem}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:500;font-size:.92rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+label.f{display:grid;gap:6px;font-weight:600;font-size:.92rem}
+.in{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface)}
+textarea.in{min-height:110px;resize:vertical}
+.hint{color:var(--muted);font-size:.88rem;font-weight:400}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding-block:48px 36px}
+.hero p.lead{font-size:1.15rem;color:var(--muted);margin-block:18px 26px;max-width:46ch}
+.hero .art{aspect-ratio:1;border-radius:24px;max-width:100%;background-size:96px;box-shadow:0 0 0 1px var(--line)}
+.corr{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.corr span{font-size:.85rem;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:4px 12px}
+section.s{padding-block:34px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;min-width:0}
+.card:hover{border-color:var(--ink)}
+.cov{aspect-ratio:16/9;position:relative;background-size:70px}
+.tag{position:absolute;left:10px;top:10px;background:var(--surface);color:var(--ink);font-size:.78rem;font-weight:600;padding:3px 10px;border-radius:999px}
+.tag.ex{left:auto;right:10px;background:var(--gold);color:#241a00}
+.cb{padding:16px;display:grid;gap:10px;min-width:0}
+.cb p.by{color:var(--muted);font-size:.88rem}
+.prog{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+.prog b{display:block;height:100%;background:var(--gold);border-radius:99px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:.88rem;color:var(--muted);flex-wrap:wrap}
+.meta strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.dt{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;padding-block:28px;align-items:start}
+.dt>*{min-width:0}
+.dt .cov{border-radius:18px;aspect-ratio:16/8}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:14px;position:sticky;top:calc(72px + env(safe-area-inset-top,0px))}
+.big{font-family:var(--f-display);font-weight:800;font-size:2rem;font-variant-numeric:tabular-nums}
+.story{display:grid;gap:14px;margin-top:22px;max-width:65ch}
+.rw{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px;cursor:pointer;text-align:left;background:var(--bg)}
+.rw[aria-pressed="true"]{border-color:var(--brand);background:var(--soft)}
+.rw b{font-variant-numeric:tabular-nums}
+.pay{display:grid;gap:8px}
+.pay label{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.pay label:has(input:checked){border-color:var(--brand);background:var(--soft)}
+.mmbox{display:grid;gap:10px;border-left:3px solid var(--gold);padding-left:12px}
+.sum{display:grid;gap:4px;font-size:.92rem;font-variant-numeric:tabular-nums}
+.sum div{display:flex;justify-content:space-between}
+.demo{font-size:.82rem;background:var(--soft);border-radius:8px;padding:8px 10px;color:var(--muted)}
+.fam{font-size:.9rem;border:1.5px dashed var(--gold);border-radius:10px;padding:8px 12px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:8px;align-content:start}
+.step p{color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-size:.93rem;vertical-align:top}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.form{display:grid;gap:16px;max-width:680px;padding-block:28px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.trk div{border-top:4px solid var(--line);padding-top:6px;font-size:.8rem;color:var(--muted)}.trk div.on{border-color:var(--gold);color:var(--ink);font-weight:600}
+.empty{padding:28px;border:1.5px dashed var(--line);border-radius:14px;color:var(--muted);text-align:center}
+.foot{border-top:1px solid var(--line);margin-top:40px;padding-block:28px;color:var(--muted);font-size:.88rem;display:grid;gap:6px}
+.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:20;font-weight:600;max-width:90vw}
+@media (max-width:820px){
+  .hero,.dt{grid-template-columns:1fr}
+  .hero .art{display:none}
+  .panel{position:static}
+  .nav{display:none}
+  .langsel{margin-left:auto}
+  .two,.seg{grid-template-columns:1fr}
+  .tabs{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);
+    padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  .tabs a{display:grid;justify-items:center;gap:2px;padding:6px 2px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--muted)}
+  .tabs a[aria-current="page"]{color:var(--brand)}
+  .tabs svg{width:22px;height:22px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="#accueil"><i></i>SarakaFund</a>
+  <nav class="nav" id="nav"></nav>
+  <select class="in langsel" id="lang"><option value="fr">FR</option><option value="en">EN</option><option value="nl">NL</option><option value="de">DE</option><option value="es">ES</option><option value="pt">PT</option><option value="it">IT</option><option value="ru">RU</option><option value="zh">中文</option></select>
+</div></header>
+<main class="wrap" id="app"></main>
+<nav class="tabs" id="tabs"></nav>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+/* ---------- langues ---------- */
+const LOC={fr:'fr-BE',en:'en-BE',nl:'nl-BE',de:'de-DE',es:'es-ES',pt:'pt-PT',it:'it-IT',ru:'ru-RU',zh:'zh-CN'};
+let lang=store.get('sk_lang',null);
+if(!LOC[lang]){const n=(navigator.language||'fr').slice(0,2);lang=LOC[n]?n:'fr'}
+const D={
+fr:{
+ nav_home:"Accueil",nav_explore:"Explorer",nav_how:"Comment ça marche",nav_space:"Mon espace",nav_launch:"Lancer une collecte",
+ tab_home:"Accueil",tab_explore:"Explorer",tab_launch:"Lancer",tab_space:"Mon espace",aria_lang:"Langue",
+ from:"Vous contribuez depuis",f_res:"Pays de résidence",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Montants en euros. Conversion indicative dans votre devise (taux de démonstration).",
+ h_title:"Ce que la diaspora construit, on le finance ensemble.",
+ h_lead:"Depuis la Belgique, la France, le Canada, les Émirats, la Chine ou n’importe où dans le monde : lancez ou soutenez un projet en Afrique. Un commerce, un album, un forage, un rapatriement, une école. Les donateurs viennent de tous les pays, les montants sont en euros, les comptes rendus sont publics.",
+ h_cta2:"Découvrir les projets",
+ sec_live:"Collectes en cours",see_all:"Tout voir",ways:"Deux façons de collecter",
+ w1_t:"Projet avec contreparties",w1_d:"Pour un projet créatif ou entrepreneurial. Les contributeurs reçoivent un produit, une place, un remerciement. Objectif tout ou rien, ou financement flexible.",
+ w2_t:"Cagnotte solidaire",w2_d:"Pour une urgence, un deuil, une école, un puits. Vous gardez tout ce qui est collecté. Pas de contrepartie, des nouvelles régulières.",
+ w3_t:"Pensé pour la diaspora",w3_d:"Pays de résidence et pays d’origine sur chaque projet, paiement local (Bancontact, iDEAL, carte, virement…) ou mobile money, versement sur un compte de votre pays ou en mobile money.",
+ cat_reward:"Projet avec contreparties",cat_solidaire:"Cagnotte solidaire",tag_ex:"Exemple",fictional:"Projet fictif créé pour la démonstration. Il n’existe pas et aucune contribution réelle n’est possible.",tag_mine:"Ma collecte",
+ pct_aria:"{p} % financé",of:"sur",backers1:"{n} contributeur",backersN:"{n} contributeurs",days1:"{n} jour restant",daysN:"{n} jours restants",reached:"Objectif atteint",ended:"Terminé",
+ explore:"Explorer",f_all:"Tout",f_reward:"Contreparties",f_sol:"Solidaire",f_type_aria:"Type de collecte",f_country_aria:"Pays",all_countries:"Tous les pays",search:"Rechercher",search_ph:"Titre, ville, association…",none:"Aucun projet ne correspond à ces filtres.",
+ back:"← Tous les projets",not_found:"Ce projet n’existe pas.",
+ rule_sol:"Cagnotte solidaire : la personne qui porte la collecte garde l’intégralité des fonds collectés.",
+ rule_flex:"Financement flexible : le porteur garde les fonds même si l’objectif n’est pas atteint.",
+ rule_aon:"Tout ou rien : si l’objectif n’est pas atteint à la date limite, personne n’est débité.",
+ collected:"collectés sur {g}",backers_lbl:"contributeurs",rewards_aria:"Contreparties",amount:"Montant (€)",tip_lbl:"Soutien à SarakaFund",optional:"facultatif",
+ your_name:"Votre nom",name_ph:"Prénom Nom",pay_method:"Moyen de paiement",pm_bc:"Bancontact",pm_card:"Carte Visa / Mastercard",pm_sepa:"Virement SEPA",pm_mm:"Mobile money",
+ mm_op:"Opérateur",mm_num:"Numéro de téléphone mobile money",mm_conv:"Le paiement est converti en monnaie locale au taux du jour (démonstration).",
+ fam:"Votre famille est au pays ? Elle peut contribuer par mobile money, sans carte bancaire.",
+ contribution:"Contribution",tip_line:"Soutien à SarakaFund",total:"Total",contribute:"Contribuer",
+ demo:"Mode démonstration : aucun paiement réel n’est effectué.",min_amt:"Indiquez un montant d’au moins 1 €",bad_phone:"Indiquez un numéro de mobile money valide",thanks:"Merci, votre contribution est enregistrée",
+ l_title:"Lancer une collecte",l_sub:"Cinq minutes suffisent. Vous pourrez la partager tout de suite.",
+ t_reward_d:"Création, commerce, culture",t_sol_d:"Urgence, deuil, école, eau",
+ f_title:"Titre",f_title_ph:"Ex. Un atelier de couture à Matongé",f_summary:"Résumé en une phrase",f_by:"Votre nom ou association",f_city:"Ville de résidence",f_country:"Pays d’origine concerné",f_goal:"Objectif (€)",f_days:"Durée (jours)",f_mode:"Mode de financement",m_aon:"Tout ou rien",m_flex:"Flexible",f_story:"Votre histoire",f_story_ph:"Pourquoi ce projet ? À quoi servira chaque euro ?",
+ po_title:"Recevoir les fonds",po_iban:"Compte bancaire dans mon pays de résidence",po_mm:"Mobile money dans le pays d’origine",po_iban_l:"IBAN ou numéro de compte",po_op:"Opérateur",po_num:"Numéro mobile money",
+ fees_note:"Tarifs prévus : projets avec contreparties, 5 % de commission uniquement si la collecte aboutit ; cagnottes solidaires, 0 % de commission (soutien volontaire des contributeurs). Les frais du prestataire de paiement s’y ajoutent. Les coordonnées de versement ne sont pas conservées dans cette démonstration.",
+ err_fields:"Renseignez tous les champs. L’objectif doit être d’au moins 100 €.",err_iban:"Renseignez un IBAN ou un numéro de compte valide.",err_mm:"Renseignez un numéro de mobile money valide.",publish:"Publier la collecte",published:"Collecte publiée",
+ dr1_n:"Remerciement",dr1_d:"Votre nom dans les remerciements.",dr2_n:"Contrepartie principale",dr2_d:"À préciser par le porteur.",
+ how_title:"Comment ça marche",
+ hs1_t:"Vous racontez",hs1_d:"Titre, objectif, histoire, pays concerné. Pour un projet avec contreparties, vous ajoutez ce que reçoivent les contributeurs.",
+ hs2_t:"Vous partagez",hs2_d:"Famille, associations, églises, groupes WhatsApp. Un lien unique, lisible sur téléphone.",
+ hs3_t:"On vous soutient",hs3_d:"Paiement par carte, virement, moyen local ou mobile money, selon votre pays. Le montant collecté est visible en direct.",
+ hs4_t:"Vous rendez compte",hs4_d:"Photos, factures, nouvelles. La confiance de la diaspora se construit sur la transparence.",
+ fees_title:"Tarifs",th_type:"Type",th_fee:"Commission SarakaFund",th_fail:"Si l’objectif n’est pas atteint",
+ tr1:["Projet avec contreparties, tout ou rien","5 % si réussite","Personne n’est débité"],tr2:["Projet avec contreparties, flexible","5 % sur les fonds collectés","Le porteur garde les fonds"],tr3:["Cagnotte solidaire","0 % (soutien volontaire)","Le porteur garde les fonds"],
+ fees_note2:"Les frais du prestataire de paiement s’ajoutent. Tarifs proposés pour cette maquette.",
+ sp_title:"Mon espace",my_c:"Mes collectes",no_c:"Vous n’avez pas encore lancé de collecte.",start:"Commencer",my_p:"Mes contributions",no_p:"Aucune contribution pour l’instant.",discover:"Découvrir des projets",th_date:"Date",th_proj:"Projet",th_amt:"Montant",th_pay:"Paiement",local:"Ces données restent sur cet appareil dans la maquette.",
+ foot:"Maquette de démonstration. Les projets d’exemple sont fictifs."
+},
+en:{
+ nav_home:"Home",nav_explore:"Explore",nav_how:"How it works",nav_space:"My space",nav_launch:"Start a campaign",
+ tab_home:"Home",tab_explore:"Explore",tab_launch:"Start",tab_space:"My space",aria_lang:"Language",
+ from:"You are contributing from",f_res:"Country where you live",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Amounts in euros. Indicative conversion into your currency (demo rates).",
+ h_title:"What the diaspora builds, we fund together.",
+ h_lead:"From Belgium, France, Canada, the Emirates, China or anywhere in the world: start or back a project in Africa. A shop, an album, a water well, a repatriation, a school. Donors can come from any country, amounts are in euros and progress reports are public.",
+ h_cta2:"Browse projects",
+ sec_live:"Live campaigns",see_all:"See all",ways:"Two ways to raise funds",
+ w1_t:"Project with rewards",w1_d:"For a creative or business project. Backers receive a product, a ticket or a thank-you. All-or-nothing goal, or flexible funding.",
+ w2_t:"Community fundraiser",w2_d:"For an emergency, a bereavement, a school, a well. You keep everything you raise. No rewards, regular updates.",
+ w3_t:"Built for the diaspora",w3_d:"Country of residence and country of origin on every project, local payment (Bancontact, iDEAL, card, transfer…) or mobile money, payout to a bank account in your country or to mobile money.",
+ cat_reward:"Project with rewards",cat_solidaire:"Community fundraiser",tag_ex:"Example",fictional:"Fictional project created for the demo. It does not exist and no real contribution is possible.",tag_mine:"My campaign",
+ pct_aria:"{p}% funded",of:"of",backers1:"{n} backer",backersN:"{n} backers",days1:"{n} day left",daysN:"{n} days left",reached:"Goal reached",ended:"Ended",
+ explore:"Explore",f_all:"All",f_reward:"Rewards",f_sol:"Community",f_type_aria:"Campaign type",f_country_aria:"Country",all_countries:"All countries",search:"Search",search_ph:"Title, city, association…",none:"No project matches these filters.",
+ back:"← All projects",not_found:"This project does not exist.",
+ rule_sol:"Community fundraiser: the organiser keeps all the funds raised.",
+ rule_flex:"Flexible funding: the creator keeps the funds even if the goal is not reached.",
+ rule_aon:"All-or-nothing: if the goal is not reached by the deadline, nobody is charged.",
+ collected:"raised of {g}",backers_lbl:"backers",rewards_aria:"Rewards",amount:"Amount (€)",tip_lbl:"Support for SarakaFund",optional:"optional",
+ your_name:"Your name",name_ph:"First and last name",pay_method:"Payment method",pm_bc:"Bancontact",pm_card:"Visa / Mastercard",pm_sepa:"SEPA transfer",pm_mm:"Mobile money",
+ mm_op:"Operator",mm_num:"Mobile money phone number",mm_conv:"The payment is converted to local currency at the day’s rate (demonstration).",
+ fam:"Is your family back home? They can contribute by mobile money, no bank card needed.",
+ contribution:"Contribution",tip_line:"Support for SarakaFund",total:"Total",contribute:"Contribute",
+ demo:"Demo mode: no real payment is made.",min_amt:"Enter an amount of at least €1",bad_phone:"Enter a valid mobile money number",thanks:"Thank you, your contribution is recorded",
+ l_title:"Start a campaign",l_sub:"Five minutes is enough. You can share it right away.",
+ t_reward_d:"Creative, business, culture",t_sol_d:"Emergency, funeral, school, water",
+ f_title:"Title",f_title_ph:"E.g. A sewing workshop in Matongé",f_summary:"One-sentence summary",f_by:"Your name or association",f_city:"City where you live",f_country:"Country concerned",f_goal:"Goal (€)",f_days:"Duration (days)",f_mode:"Funding mode",m_aon:"All-or-nothing",m_flex:"Flexible",f_story:"Your story",f_story_ph:"Why this project? What will each euro be used for?",
+ po_title:"Receive the funds",po_iban:"Bank account in my country of residence",po_mm:"Mobile money in the country of origin",po_iban_l:"IBAN or account number",po_op:"Operator",po_num:"Mobile money number",
+ fees_note:"Planned fees: projects with rewards, 5% commission only if the campaign succeeds; community fundraisers, 0% commission (voluntary support from contributors). Payment provider fees come on top. Payout details are not stored in this demo.",
+ err_fields:"Fill in all fields. The goal must be at least €100.",err_iban:"Enter a valid IBAN or account number.",err_mm:"Enter a valid mobile money number.",publish:"Publish campaign",published:"Campaign published",
+ dr1_n:"Thank-you",dr1_d:"Your name in the credits.",dr2_n:"Main reward",dr2_d:"To be detailed by the creator.",
+ how_title:"How it works",
+ hs1_t:"You tell your story",hs1_d:"Title, goal, story, country concerned. For a project with rewards, you add what backers receive.",
+ hs2_t:"You share it",hs2_d:"Family, associations, churches, WhatsApp groups. One link that reads well on a phone.",
+ hs3_t:"People back you",hs3_d:"Pay by card, bank transfer, a local method or mobile money, depending on your country. The amount raised updates live.",
+ hs4_t:"You report back",hs4_d:"Photos, invoices, news. Trust in the diaspora is built on transparency.",
+ fees_title:"Fees",th_type:"Type",th_fee:"SarakaFund commission",th_fail:"If the goal is not reached",
+ tr1:["Project with rewards, all-or-nothing","5% if successful","Nobody is charged"],tr2:["Project with rewards, flexible","5% of funds raised","The creator keeps the funds"],tr3:["Community fundraiser","0% (voluntary support)","The organiser keeps the funds"],
+ fees_note2:"Payment provider fees come on top. Fees proposed for this prototype.",
+ sp_title:"My space",my_c:"My campaigns",no_c:"You have not started a campaign yet.",start:"Get started",my_p:"My contributions",no_p:"No contributions yet.",discover:"Discover projects",th_date:"Date",th_proj:"Project",th_amt:"Amount",th_pay:"Payment",local:"In this prototype, this data stays on this device.",
+ foot:"Demo prototype. Example projects are fictional."
+},
+nl:{
+ nav_home:"Start",nav_explore:"Ontdekken",nav_how:"Hoe het werkt",nav_space:"Mijn ruimte",nav_launch:"Actie starten",
+ tab_home:"Start",tab_explore:"Ontdekken",tab_launch:"Starten",tab_space:"Mijn ruimte",aria_lang:"Taal",
+ from:"U draagt bij vanuit",f_res:"Land waar u woont",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Bedragen in euro. Indicatieve omrekening naar uw munt (demokoersen).",
+ h_title:"Wat de diaspora opbouwt, financieren we samen.",
+ h_lead:"Vanuit België, Frankrijk, Canada, de Emiraten, China of waar ook ter wereld: start of steun een project in Afrika. Een winkel, een album, een waterput, een repatriëring, een school. Schenkers komen uit alle landen, bedragen zijn in euro en de verslagen zijn openbaar.",
+ h_cta2:"Projecten bekijken",
+ sec_live:"Lopende acties",see_all:"Alles bekijken",ways:"Twee manieren om geld in te zamelen",
+ w1_t:"Project met tegenprestaties",w1_d:"Voor een creatief of ondernemend project. Steuners krijgen een product, een ticket of een bedankje. Alles-of-niets of flexibele financiering.",
+ w2_t:"Solidaire inzamelactie",w2_d:"Voor een noodsituatie, een overlijden, een school, een waterput. U houdt alles wat wordt ingezameld. Geen tegenprestatie, wel regelmatig nieuws.",
+ w3_t:"Gemaakt voor de diaspora",w3_d:"Woonland en land van herkomst bij elk project, lokale betaling (Bancontact, iDEAL, kaart, overschrijving…) of mobile money, uitbetaling op een rekening in uw land of via mobile money.",
+ cat_reward:"Project met tegenprestaties",cat_solidaire:"Solidaire inzamelactie",tag_ex:"Voorbeeld",fictional:"Fictief project voor de demo. Het bestaat niet en er is geen echte bijdrage mogelijk.",tag_mine:"Mijn actie",
+ pct_aria:"{p} % gefinancierd",of:"van",backers1:"{n} steuner",backersN:"{n} steuners",days1:"nog {n} dag",daysN:"nog {n} dagen",reached:"Doel bereikt",ended:"Afgelopen",
+ explore:"Ontdekken",f_all:"Alles",f_reward:"Tegenprestaties",f_sol:"Solidair",f_type_aria:"Type actie",f_country_aria:"Land",all_countries:"Alle landen",search:"Zoeken",search_ph:"Titel, stad, vereniging…",none:"Geen enkel project komt overeen met deze filters.",
+ back:"← Alle projecten",not_found:"Dit project bestaat niet.",
+ rule_sol:"Solidaire inzamelactie: de organisator houdt alle ingezamelde middelen.",
+ rule_flex:"Flexibele financiering: de maker houdt de middelen, ook als het doel niet wordt gehaald.",
+ rule_aon:"Alles-of-niets: wordt het doel niet gehaald op de einddatum, dan wordt niemand aangerekend.",
+ collected:"ingezameld van {g}",backers_lbl:"steuners",rewards_aria:"Tegenprestaties",amount:"Bedrag (€)",tip_lbl:"Steun voor SarakaFund",optional:"optioneel",
+ your_name:"Uw naam",name_ph:"Voornaam Naam",pay_method:"Betaalmethode",pm_bc:"Bancontact",pm_card:"Visa / Mastercard",pm_sepa:"SEPA-overschrijving",pm_mm:"Mobile money",
+ mm_op:"Operator",mm_num:"Mobiel telefoonnummer voor mobile money",mm_conv:"De betaling wordt omgezet in lokale munt tegen de dagkoers (demonstratie).",
+ fam:"Woont uw familie in het land van herkomst? Zij kan bijdragen via mobile money, zonder bankkaart.",
+ contribution:"Bijdrage",tip_line:"Steun voor SarakaFund",total:"Totaal",contribute:"Bijdragen",
+ demo:"Demomodus: er wordt geen echte betaling uitgevoerd.",min_amt:"Geef een bedrag van minstens € 1 in",bad_phone:"Geef een geldig mobile-moneynummer in",thanks:"Bedankt, uw bijdrage is geregistreerd",
+ l_title:"Een actie starten",l_sub:"Vijf minuten volstaan. U kunt ze meteen delen.",
+ t_reward_d:"Creatie, ondernemen, cultuur",t_sol_d:"Nood, overlijden, school, water",
+ f_title:"Titel",f_title_ph:"Bv. Een naaiatelier in Matonge",f_summary:"Samenvatting in één zin",f_by:"Uw naam of vereniging",f_city:"Woonplaats",f_country:"Betrokken land",f_goal:"Doel (€)",f_days:"Duur (dagen)",f_mode:"Financieringsmodus",m_aon:"Alles-of-niets",m_flex:"Flexibel",f_story:"Uw verhaal",f_story_ph:"Waarom dit project? Waarvoor dient elke euro?",
+ po_title:"De middelen ontvangen",po_iban:"Bankrekening in mijn woonland",po_mm:"Mobile money in het land van herkomst",po_iban_l:"IBAN of rekeningnummer",po_op:"Operator",po_num:"Mobile-moneynummer",
+ fees_note:"Geplande tarieven: projecten met tegenprestaties, 5 % commissie enkel bij succes; solidaire acties, 0 % commissie (vrijwillige steun van de bijdragers). De kosten van de betaaldienstaanbieder komen erbovenop. Uitbetalingsgegevens worden in deze demo niet bewaard.",
+ err_fields:"Vul alle velden in. Het doel moet minstens € 100 bedragen.",err_iban:"Geef een geldig IBAN of rekeningnummer in.",err_mm:"Geef een geldig mobile-moneynummer in.",publish:"Actie publiceren",published:"Actie gepubliceerd",
+ dr1_n:"Bedankje",dr1_d:"Uw naam in de dankbetuigingen.",dr2_n:"Hoofdtegenprestatie",dr2_d:"Door de maker te verduidelijken.",
+ how_title:"Hoe het werkt",
+ hs1_t:"U vertelt uw verhaal",hs1_d:"Titel, doel, verhaal, betrokken land. Bij een project met tegenprestaties voegt u toe wat steuners krijgen.",
+ hs2_t:"U deelt het",hs2_d:"Familie, verenigingen, kerken, WhatsApp-groepen. Eén link die goed leesbaar is op een gsm.",
+ hs3_t:"Mensen steunen u",hs3_d:"Betaal met kaart, overschrijving, een lokale methode of mobile money, afhankelijk van uw land. Het ingezamelde bedrag is live zichtbaar.",
+ hs4_t:"U geeft verantwoording",hs4_d:"Foto’s, facturen, nieuws. Vertrouwen in de diaspora groeit door transparantie.",
+ fees_title:"Tarieven",th_type:"Type",th_fee:"Commissie SarakaFund",th_fail:"Als het doel niet wordt gehaald",
+ tr1:["Project met tegenprestaties, alles-of-niets","5 % bij succes","Niemand wordt aangerekend"],tr2:["Project met tegenprestaties, flexibel","5 % van het ingezamelde bedrag","De maker houdt de middelen"],tr3:["Solidaire inzamelactie","0 % (vrijwillige steun)","De organisator houdt de middelen"],
+ fees_note2:"De kosten van de betaaldienstaanbieder komen erbovenop. Tarieven voorgesteld voor dit prototype.",
+ sp_title:"Mijn ruimte",my_c:"Mijn acties",no_c:"U hebt nog geen actie gestart.",start:"Beginnen",my_p:"Mijn bijdragen",no_p:"Nog geen bijdragen.",discover:"Projecten ontdekken",th_date:"Datum",th_proj:"Project",th_amt:"Bedrag",th_pay:"Betaling",local:"In dit prototype blijven deze gegevens op dit toestel.",
+ foot:"Demoprototype. De voorbeeldprojecten zijn fictief."
+},
+de:{
+ nav_home:"Start",nav_explore:"Entdecken",nav_how:"So funktioniert’s",nav_space:"Mein Bereich",nav_launch:"Aktion starten",
+ tab_home:"Start",tab_explore:"Entdecken",tab_launch:"Starten",tab_space:"Mein Bereich",aria_lang:"Sprache",
+ from:"Sie unterstützen von",f_res:"Land, in dem Sie leben",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Beträge in Euro. Richtwert in Ihrer Währung (Demokurse).",
+ h_title:"Was die Diaspora aufbaut, finanzieren wir gemeinsam.",
+ h_lead:"Aus Belgien, Frankreich, Kanada, den Emiraten, China oder von überall auf der Welt: Starten oder unterstützen Sie ein Projekt in Afrika. Ein Laden, ein Album, ein Brunnen, eine Überführung, eine Schule. Spender kommen aus allen Ländern, Beträge in Euro, Berichte öffentlich.",
+ h_cta2:"Projekte ansehen",sec_live:"Laufende Aktionen",see_all:"Alle ansehen",ways:"Zwei Wege, Geld zu sammeln",
+ w1_t:"Projekt mit Gegenleistungen",w1_d:"Für kreative oder unternehmerische Projekte. Unterstützer erhalten ein Produkt, ein Ticket oder ein Dankeschön. Alles-oder-nichts oder flexible Finanzierung.",
+ w2_t:"Solidarische Spendenaktion",w2_d:"Für Notfälle, Trauerfälle, eine Schule, einen Brunnen. Sie behalten alles, was gesammelt wird. Keine Gegenleistung, dafür regelmäßige Neuigkeiten.",
+ w3_t:"Für die Diaspora gemacht",w3_d:"Wohnland und Herkunftsland bei jedem Projekt, lokale Zahlung (Bancontact, iDEAL, Karte, Überweisung …) oder Mobile Money, Auszahlung auf ein Konto in Ihrem Land oder per Mobile Money.",
+ cat_reward:"Projekt mit Gegenleistungen",cat_solidaire:"Solidarische Spendenaktion",tag_ex:"Beispiel",fictional:"Fiktives Projekt für die Demo. Es existiert nicht, echte Beiträge sind nicht möglich.",tag_mine:"Meine Aktion",
+ pct_aria:"{p} % finanziert",of:"von",backers1:"{n} Unterstützer",backersN:"{n} Unterstützer",days1:"noch {n} Tag",daysN:"noch {n} Tage",reached:"Ziel erreicht",ended:"Beendet",
+ explore:"Entdecken",f_all:"Alle",f_reward:"Gegenleistungen",f_sol:"Solidarisch",f_type_aria:"Art der Aktion",f_country_aria:"Land",all_countries:"Alle Länder",search:"Suchen",search_ph:"Titel, Stadt, Verein …",none:"Kein Projekt entspricht diesen Filtern.",
+ back:"← Alle Projekte",not_found:"Dieses Projekt gibt es nicht.",
+ rule_sol:"Solidarische Aktion: Die organisierende Person behält alle gesammelten Mittel.",
+ rule_flex:"Flexible Finanzierung: Die Initiatorin oder der Initiator behält die Mittel, auch wenn das Ziel nicht erreicht wird.",
+ rule_aon:"Alles-oder-nichts: Wird das Ziel bis zum Stichtag nicht erreicht, wird niemand belastet.",
+ collected:"gesammelt von {g}",backers_lbl:"Unterstützer",rewards_aria:"Gegenleistungen",amount:"Betrag (€)",tip_lbl:"Unterstützung für SarakaFund",optional:"optional",
+ your_name:"Ihr Name",name_ph:"Vor- und Nachname",pay_method:"Zahlungsmethode",pm_card:"Visa / Mastercard",pm_sepa:"SEPA-Überweisung",pm_mm:"Mobile Money",
+ mm_op:"Anbieter",mm_num:"Handynummer für Mobile Money",mm_conv:"Die Zahlung wird zum Tageskurs in die Landeswährung umgerechnet (Demonstration).",
+ fam:"Ihre Familie lebt in der Heimat? Sie kann per Mobile Money beitragen, ganz ohne Bankkarte.",
+ contribution:"Beitrag",tip_line:"Unterstützung für SarakaFund",total:"Gesamt",contribute:"Beitragen",
+ demo:"Demomodus: Es wird keine echte Zahlung ausgeführt.",min_amt:"Geben Sie mindestens 1 € ein",bad_phone:"Geben Sie eine gültige Mobile-Money-Nummer ein",thanks:"Danke, Ihr Beitrag wurde erfasst",
+ l_title:"Eine Aktion starten",l_sub:"Fünf Minuten genügen. Sie können sie sofort teilen.",
+ t_reward_d:"Kreatives, Unternehmen, Kultur",t_sol_d:"Notfall, Trauerfall, Schule, Wasser",
+ f_title:"Titel",f_title_ph:"z. B. Eine Nähwerkstatt in Matongé",f_summary:"Zusammenfassung in einem Satz",f_by:"Ihr Name oder Verein",f_city:"Wohnort",f_country:"Betroffenes Land",f_goal:"Ziel (€)",f_days:"Dauer (Tage)",f_mode:"Finanzierungsart",m_aon:"Alles-oder-nichts",m_flex:"Flexibel",f_story:"Ihre Geschichte",f_story_ph:"Warum dieses Projekt? Wofür wird jeder Euro verwendet?",
+ po_title:"Mittel erhalten",po_iban:"Bankkonto in meinem Wohnland",po_mm:"Mobile Money im Herkunftsland",po_iban_l:"IBAN oder Kontonummer",po_op:"Anbieter",po_num:"Mobile-Money-Nummer",
+ fees_note:"Geplante Gebühren: Projekte mit Gegenleistungen 5 % Provision nur bei Erfolg; solidarische Aktionen 0 % Provision (freiwillige Unterstützung der Spender). Gebühren des Zahlungsdienstleisters kommen hinzu. Auszahlungsdaten werden in dieser Demo nicht gespeichert.",
+ err_fields:"Bitte alle Felder ausfüllen. Das Ziel muss mindestens 100 € betragen.",err_iban:"Geben Sie eine gültige IBAN oder Kontonummer ein.",err_mm:"Geben Sie eine gültige Mobile-Money-Nummer ein.",publish:"Aktion veröffentlichen",published:"Aktion veröffentlicht",
+ dr1_n:"Dankeschön",dr1_d:"Ihr Name im Abspann.",dr2_n:"Haupt-Gegenleistung",dr2_d:"Von der Initiatorin oder dem Initiator festzulegen.",
+ how_title:"So funktioniert’s",
+ hs1_t:"Sie erzählen Ihre Geschichte",hs1_d:"Titel, Ziel, Geschichte, betroffenes Land. Bei einem Projekt mit Gegenleistungen ergänzen Sie, was Unterstützer erhalten.",
+ hs2_t:"Sie teilen sie",hs2_d:"Familie, Vereine, Kirchen, WhatsApp-Gruppen. Ein Link, der auf dem Handy gut lesbar ist.",
+ hs3_t:"Man unterstützt Sie",hs3_d:"Zahlung per Karte, Überweisung, lokaler Methode oder Mobile Money, je nach Land. Der gesammelte Betrag ist live sichtbar.",
+ hs4_t:"Sie legen Rechenschaft ab",hs4_d:"Fotos, Rechnungen, Neuigkeiten. Vertrauen in der Diaspora entsteht durch Transparenz.",
+ fees_title:"Gebühren",th_type:"Art",th_fee:"Provision SarakaFund",th_fail:"Wenn das Ziel nicht erreicht wird",
+ tr1:["Projekt mit Gegenleistungen, alles-oder-nichts","5 % bei Erfolg","Niemand wird belastet"],tr2:["Projekt mit Gegenleistungen, flexibel","5 % der gesammelten Mittel","Die Initiatorin oder der Initiator behält die Mittel"],tr3:["Solidarische Spendenaktion","0 % (freiwillige Unterstützung)","Die organisierende Person behält die Mittel"],
+ fees_note2:"Gebühren des Zahlungsdienstleisters kommen hinzu. Für diesen Prototyp vorgeschlagene Gebühren.",
+ sp_title:"Mein Bereich",my_c:"Meine Aktionen",no_c:"Sie haben noch keine Aktion gestartet.",start:"Loslegen",my_p:"Meine Beiträge",no_p:"Noch keine Beiträge.",discover:"Projekte entdecken",th_date:"Datum",th_proj:"Projekt",th_amt:"Betrag",th_pay:"Zahlung",local:"In diesem Prototyp bleiben diese Daten auf diesem Gerät.",
+ foot:"Demo-Prototyp. Die Beispielprojekte sind fiktiv."
+},
+es:{
+ nav_home:"Inicio",nav_explore:"Explorar",nav_how:"Cómo funciona",nav_space:"Mi espacio",nav_launch:"Lanzar una campaña",
+ tab_home:"Inicio",tab_explore:"Explorar",tab_launch:"Lanzar",tab_space:"Mi espacio",aria_lang:"Idioma",
+ from:"Contribuyes desde",f_res:"País donde vives",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Importes en euros. Conversión orientativa a tu moneda (tipos de demostración).",
+ h_title:"Lo que la diáspora construye, lo financiamos juntos.",
+ h_lead:"Desde Bélgica, Francia, Canadá, los Emiratos, China o cualquier lugar del mundo: lanza o apoya un proyecto en África. Un negocio, un álbum, un pozo, una repatriación, una escuela. Los donantes pueden venir de cualquier país, importes en euros, informes públicos.",
+ h_cta2:"Ver proyectos",sec_live:"Campañas en curso",see_all:"Ver todo",ways:"Dos formas de recaudar",
+ w1_t:"Proyecto con recompensas",w1_d:"Para un proyecto creativo o emprendedor. Los mecenas reciben un producto, una entrada o un agradecimiento. Todo o nada, o financiación flexible.",
+ w2_t:"Colecta solidaria",w2_d:"Para una urgencia, un duelo, una escuela, un pozo. Te quedas con todo lo recaudado. Sin recompensas, con noticias periódicas.",
+ w3_t:"Pensado para la diáspora",w3_d:"País de residencia y país de origen en cada proyecto, pago local (Bancontact, iDEAL, tarjeta, transferencia…) o mobile money, cobro en una cuenta de tu país o en mobile money.",
+ cat_reward:"Proyecto con recompensas",cat_solidaire:"Colecta solidaria",tag_ex:"Ejemplo",fictional:"Proyecto ficticio creado para la demostración. No existe y no es posible hacer contribuciones reales.",tag_mine:"Mi campaña",
+ pct_aria:"{p} % financiado",of:"de",backers1:"{n} mecenas",backersN:"{n} mecenas",days1:"queda {n} día",daysN:"quedan {n} días",reached:"Objetivo alcanzado",ended:"Finalizada",
+ explore:"Explorar",f_all:"Todo",f_reward:"Recompensas",f_sol:"Solidario",f_type_aria:"Tipo de campaña",f_country_aria:"País",all_countries:"Todos los países",search:"Buscar",search_ph:"Título, ciudad, asociación…",none:"Ningún proyecto coincide con estos filtros.",
+ back:"← Todos los proyectos",not_found:"Este proyecto no existe.",
+ rule_sol:"Colecta solidaria: quien la organiza se queda con todos los fondos recaudados.",
+ rule_flex:"Financiación flexible: el creador se queda con los fondos aunque no se alcance el objetivo.",
+ rule_aon:"Todo o nada: si no se alcanza el objetivo en la fecha límite, no se cobra a nadie.",
+ collected:"recaudados de {g}",backers_lbl:"mecenas",rewards_aria:"Recompensas",amount:"Importe (€)",tip_lbl:"Apoyo a SarakaFund",optional:"opcional",
+ your_name:"Tu nombre",name_ph:"Nombre y apellidos",pay_method:"Método de pago",pm_card:"Visa / Mastercard",pm_sepa:"Transferencia SEPA",pm_mm:"Mobile money",
+ mm_op:"Operador",mm_num:"Número de móvil para mobile money",mm_conv:"El pago se convierte a moneda local al cambio del día (demostración).",
+ fam:"¿Tu familia está en el país de origen? Puede contribuir con mobile money, sin tarjeta bancaria.",
+ contribution:"Contribución",tip_line:"Apoyo a SarakaFund",total:"Total",contribute:"Contribuir",
+ demo:"Modo demostración: no se realiza ningún pago real.",min_amt:"Indica un importe de al menos 1 €",bad_phone:"Indica un número de mobile money válido",thanks:"Gracias, tu contribución ha quedado registrada",
+ l_title:"Lanzar una campaña",l_sub:"Bastan cinco minutos. Podrás compartirla enseguida.",
+ t_reward_d:"Creación, negocio, cultura",t_sol_d:"Urgencia, duelo, escuela, agua",
+ f_title:"Título",f_title_ph:"Ej. Un taller de costura en Matongé",f_summary:"Resumen en una frase",f_by:"Tu nombre o asociación",f_city:"Ciudad de residencia",f_country:"País de origen afectado",f_goal:"Objetivo (€)",f_days:"Duración (días)",f_mode:"Modo de financiación",m_aon:"Todo o nada",m_flex:"Flexible",f_story:"Tu historia",f_story_ph:"¿Por qué este proyecto? ¿Para qué servirá cada euro?",
+ po_title:"Recibir los fondos",po_iban:"Cuenta bancaria en mi país de residencia",po_mm:"Mobile money en el país de origen",po_iban_l:"IBAN o número de cuenta",po_op:"Operador",po_num:"Número de mobile money",
+ fees_note:"Tarifas previstas: proyectos con recompensas, 5 % de comisión solo si la campaña tiene éxito; colectas solidarias, 0 % de comisión (apoyo voluntario de los contribuyentes). Se suman las comisiones del proveedor de pagos. Los datos de cobro no se guardan en esta demostración.",
+ err_fields:"Rellena todos los campos. El objetivo debe ser de al menos 100 €.",err_iban:"Indica un IBAN o número de cuenta válido.",err_mm:"Indica un número de mobile money válido.",publish:"Publicar la campaña",published:"Campaña publicada",
+ dr1_n:"Agradecimiento",dr1_d:"Tu nombre en los agradecimientos.",dr2_n:"Recompensa principal",dr2_d:"Por detallar por el creador.",
+ how_title:"Cómo funciona",
+ hs1_t:"Cuentas tu historia",hs1_d:"Título, objetivo, historia, país afectado. En un proyecto con recompensas, añades lo que reciben los mecenas.",
+ hs2_t:"La compartes",hs2_d:"Familia, asociaciones, iglesias, grupos de WhatsApp. Un enlace único, legible en el móvil.",
+ hs3_t:"Te apoyan",hs3_d:"Pago con tarjeta, transferencia, método local o mobile money, según tu país. El importe recaudado se ve en directo.",
+ hs4_t:"Rindes cuentas",hs4_d:"Fotos, facturas, novedades. La confianza de la diáspora se construye con transparencia.",
+ fees_title:"Tarifas",th_type:"Tipo",th_fee:"Comisión de SarakaFund",th_fail:"Si no se alcanza el objetivo",
+ tr1:["Proyecto con recompensas, todo o nada","5 % si tiene éxito","No se cobra a nadie"],tr2:["Proyecto con recompensas, flexible","5 % de los fondos recaudados","El creador se queda con los fondos"],tr3:["Colecta solidaria","0 % (apoyo voluntario)","Quien la organiza se queda con los fondos"],
+ fees_note2:"Se suman las comisiones del proveedor de pagos. Tarifas propuestas para este prototipo.",
+ sp_title:"Mi espacio",my_c:"Mis campañas",no_c:"Aún no has lanzado ninguna campaña.",start:"Empezar",my_p:"Mis contribuciones",no_p:"Todavía no hay contribuciones.",discover:"Descubrir proyectos",th_date:"Fecha",th_proj:"Proyecto",th_amt:"Importe",th_pay:"Pago",local:"En este prototipo, estos datos se quedan en este dispositivo.",
+ foot:"Prototipo de demostración. Los proyectos de ejemplo son ficticios."
+},
+pt:{
+ nav_home:"Início",nav_explore:"Explorar",nav_how:"Como funciona",nav_space:"O meu espaço",nav_launch:"Lançar uma campanha",
+ tab_home:"Início",tab_explore:"Explorar",tab_launch:"Lançar",tab_space:"O meu espaço",aria_lang:"Idioma",
+ from:"Está a contribuir a partir de",f_res:"País onde vive",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Valores em euros. Conversão indicativa para a sua moeda (taxas de demonstração).",
+ h_title:"O que a diáspora constrói, financiamos juntos.",
+ h_lead:"A partir da Bélgica, França, Canadá, Emirados, China ou qualquer parte do mundo: lance ou apoie um projeto em África. Um negócio, um álbum, um poço, uma repatriação, uma escola. Os doadores podem vir de qualquer país, valores em euros, relatórios públicos.",
+ h_cta2:"Ver projetos",sec_live:"Campanhas em curso",see_all:"Ver tudo",ways:"Duas formas de angariar fundos",
+ w1_t:"Projeto com recompensas",w1_d:"Para um projeto criativo ou empreendedor. Os apoiantes recebem um produto, um bilhete ou um agradecimento. Tudo ou nada, ou financiamento flexível.",
+ w2_t:"Angariação solidária",w2_d:"Para uma urgência, um luto, uma escola, um poço. Fica com tudo o que for angariado. Sem recompensas, com notícias regulares.",
+ w3_t:"Pensado para a diáspora",w3_d:"País de residência e país de origem em cada projeto, pagamento local (Bancontact, iDEAL, cartão, transferência…) ou mobile money, recebimento numa conta do seu país ou em mobile money.",
+ cat_reward:"Projeto com recompensas",cat_solidaire:"Angariação solidária",tag_ex:"Exemplo",fictional:"Projeto fictício criado para a demonstração. Não existe e não é possível fazer contribuições reais.",tag_mine:"A minha campanha",
+ pct_aria:"{p} % financiado",of:"de",backers1:"{n} apoiante",backersN:"{n} apoiantes",days1:"falta {n} dia",daysN:"faltam {n} dias",reached:"Objetivo atingido",ended:"Terminada",
+ explore:"Explorar",f_all:"Tudo",f_reward:"Recompensas",f_sol:"Solidário",f_type_aria:"Tipo de campanha",f_country_aria:"País",all_countries:"Todos os países",search:"Pesquisar",search_ph:"Título, cidade, associação…",none:"Nenhum projeto corresponde a estes filtros.",
+ back:"← Todos os projetos",not_found:"Este projeto não existe.",
+ rule_sol:"Angariação solidária: quem a organiza fica com a totalidade dos fundos angariados.",
+ rule_flex:"Financiamento flexível: o criador fica com os fundos mesmo que o objetivo não seja atingido.",
+ rule_aon:"Tudo ou nada: se o objetivo não for atingido até à data limite, ninguém é cobrado.",
+ collected:"angariados de {g}",backers_lbl:"apoiantes",rewards_aria:"Recompensas",amount:"Valor (€)",tip_lbl:"Apoio à SarakaFund",optional:"opcional",
+ your_name:"O seu nome",name_ph:"Nome e apelido",pay_method:"Método de pagamento",pm_card:"Visa / Mastercard",pm_sepa:"Transferência SEPA",pm_mm:"Mobile money",
+ mm_op:"Operador",mm_num:"Número de telemóvel para mobile money",mm_conv:"O pagamento é convertido para a moeda local à taxa do dia (demonstração).",
+ fam:"A sua família está no país de origem? Pode contribuir por mobile money, sem cartão bancário.",
+ contribution:"Contribuição",tip_line:"Apoio à SarakaFund",total:"Total",contribute:"Contribuir",
+ demo:"Modo de demonstração: nenhum pagamento real é efetuado.",min_amt:"Indique um valor de pelo menos 1 €",bad_phone:"Indique um número de mobile money válido",thanks:"Obrigado, a sua contribuição foi registada",
+ l_title:"Lançar uma campanha",l_sub:"Cinco minutos bastam. Pode partilhá-la logo a seguir.",
+ t_reward_d:"Criação, negócio, cultura",t_sol_d:"Urgência, luto, escola, água",
+ f_title:"Título",f_title_ph:"Ex. Uma oficina de costura em Matongé",f_summary:"Resumo numa frase",f_by:"O seu nome ou associação",f_city:"Cidade de residência",f_country:"País de origem em causa",f_goal:"Objetivo (€)",f_days:"Duração (dias)",f_mode:"Modo de financiamento",m_aon:"Tudo ou nada",m_flex:"Flexível",f_story:"A sua história",f_story_ph:"Porquê este projeto? Para que servirá cada euro?",
+ po_title:"Receber os fundos",po_iban:"Conta bancária no meu país de residência",po_mm:"Mobile money no país de origem",po_iban_l:"IBAN ou número de conta",po_op:"Operador",po_num:"Número de mobile money",
+ fees_note:"Tarifas previstas: projetos com recompensas, 5 % de comissão apenas se a campanha tiver sucesso; angariações solidárias, 0 % de comissão (apoio voluntário dos contribuintes). Acrescem as taxas do prestador de pagamentos. Os dados de recebimento não são guardados nesta demonstração.",
+ err_fields:"Preencha todos os campos. O objetivo deve ser de pelo menos 100 €.",err_iban:"Indique um IBAN ou número de conta válido.",err_mm:"Indique um número de mobile money válido.",publish:"Publicar a campanha",published:"Campanha publicada",
+ dr1_n:"Agradecimento",dr1_d:"O seu nome nos agradecimentos.",dr2_n:"Recompensa principal",dr2_d:"A detalhar pelo criador.",
+ how_title:"Como funciona",
+ hs1_t:"Conta a sua história",hs1_d:"Título, objetivo, história, país em causa. Num projeto com recompensas, acrescenta o que os apoiantes recebem.",
+ hs2_t:"Partilha",hs2_d:"Família, associações, igrejas, grupos de WhatsApp. Uma ligação única, legível no telemóvel.",
+ hs3_t:"Apoiam-no",hs3_d:"Pagamento por cartão, transferência, método local ou mobile money, consoante o seu país. O valor angariado é visível em direto.",
+ hs4_t:"Presta contas",hs4_d:"Fotos, faturas, novidades. A confiança da diáspora constrói-se com transparência.",
+ fees_title:"Tarifas",th_type:"Tipo",th_fee:"Comissão SarakaFund",th_fail:"Se o objetivo não for atingido",
+ tr1:["Projeto com recompensas, tudo ou nada","5 % em caso de sucesso","Ninguém é cobrado"],tr2:["Projeto com recompensas, flexível","5 % dos fundos angariados","O criador fica com os fundos"],tr3:["Angariação solidária","0 % (apoio voluntário)","Quem a organiza fica com os fundos"],
+ fees_note2:"Acrescem as taxas do prestador de pagamentos. Tarifas propostas para este protótipo.",
+ sp_title:"O meu espaço",my_c:"As minhas campanhas",no_c:"Ainda não lançou nenhuma campanha.",start:"Começar",my_p:"As minhas contribuições",no_p:"Ainda sem contribuições.",discover:"Descobrir projetos",th_date:"Data",th_proj:"Projeto",th_amt:"Valor",th_pay:"Pagamento",local:"Neste protótipo, estes dados ficam neste dispositivo.",
+ foot:"Protótipo de demonstração. Os projetos de exemplo são fictícios."
+},
+it:{
+ nav_home:"Home",nav_explore:"Esplora",nav_how:"Come funziona",nav_space:"Il mio spazio",nav_launch:"Avvia una raccolta",
+ tab_home:"Home",tab_explore:"Esplora",tab_launch:"Avvia",tab_space:"Il mio spazio",aria_lang:"Lingua",
+ from:"Contribuisci da",f_res:"Paese in cui vivi",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Importi in euro. Conversione indicativa nella tua valuta (cambi dimostrativi).",
+ h_title:"Ciò che la diaspora costruisce, lo finanziamo insieme.",
+ h_lead:"Dal Belgio, dalla Francia, dal Canada, dagli Emirati, dalla Cina o da qualsiasi parte del mondo: avvia o sostieni un progetto in Africa. Un’attività, un album, un pozzo, un rimpatrio, una scuola. I donatori possono arrivare da ogni paese, importi in euro, rendiconti pubblici.",
+ h_cta2:"Scopri i progetti",sec_live:"Raccolte in corso",see_all:"Vedi tutto",ways:"Due modi per raccogliere fondi",
+ w1_t:"Progetto con ricompense",w1_d:"Per un progetto creativo o imprenditoriale. I sostenitori ricevono un prodotto, un biglietto o un ringraziamento. Tutto o niente, oppure finanziamento flessibile.",
+ w2_t:"Raccolta solidale",w2_d:"Per un’emergenza, un lutto, una scuola, un pozzo. Tieni tutto ciò che raccogli. Nessuna ricompensa, aggiornamenti regolari.",
+ w3_t:"Pensata per la diaspora",w3_d:"Paese di residenza e paese d’origine su ogni progetto, pagamento locale (Bancontact, iDEAL, carta, bonifico…) o mobile money, accredito su un conto del tuo paese o in mobile money.",
+ cat_reward:"Progetto con ricompense",cat_solidaire:"Raccolta solidale",tag_ex:"Esempio",fictional:"Progetto fittizio creato per la dimostrazione. Non esiste e non sono possibili contributi reali.",tag_mine:"La mia raccolta",
+ pct_aria:"{p}% finanziato",of:"su",backers1:"{n} sostenitore",backersN:"{n} sostenitori",days1:"{n} giorno rimasto",daysN:"{n} giorni rimasti",reached:"Obiettivo raggiunto",ended:"Conclusa",
+ explore:"Esplora",f_all:"Tutto",f_reward:"Ricompense",f_sol:"Solidale",f_type_aria:"Tipo di raccolta",f_country_aria:"Paese",all_countries:"Tutti i paesi",search:"Cerca",search_ph:"Titolo, città, associazione…",none:"Nessun progetto corrisponde a questi filtri.",
+ back:"← Tutti i progetti",not_found:"Questo progetto non esiste.",
+ rule_sol:"Raccolta solidale: chi la organizza tiene tutti i fondi raccolti.",
+ rule_flex:"Finanziamento flessibile: il creatore tiene i fondi anche se l’obiettivo non viene raggiunto.",
+ rule_aon:"Tutto o niente: se l’obiettivo non viene raggiunto entro la scadenza, nessuno viene addebitato.",
+ collected:"raccolti su {g}",backers_lbl:"sostenitori",rewards_aria:"Ricompense",amount:"Importo (€)",tip_lbl:"Sostegno a SarakaFund",optional:"facoltativo",
+ your_name:"Il tuo nome",name_ph:"Nome e cognome",pay_method:"Metodo di pagamento",pm_card:"Visa / Mastercard",pm_sepa:"Bonifico SEPA",pm_mm:"Mobile money",
+ mm_op:"Operatore",mm_num:"Numero di cellulare per il mobile money",mm_conv:"Il pagamento viene convertito in valuta locale al cambio del giorno (dimostrazione).",
+ fam:"La tua famiglia è nel paese d’origine? Può contribuire con il mobile money, senza carta bancaria.",
+ contribution:"Contributo",tip_line:"Sostegno a SarakaFund",total:"Totale",contribute:"Contribuisci",
+ demo:"Modalità dimostrativa: non viene effettuato alcun pagamento reale.",min_amt:"Inserisci un importo di almeno 1 €",bad_phone:"Inserisci un numero di mobile money valido",thanks:"Grazie, il tuo contributo è stato registrato",
+ l_title:"Avvia una raccolta",l_sub:"Bastano cinque minuti. Potrai condividerla subito.",
+ t_reward_d:"Creazione, impresa, cultura",t_sol_d:"Emergenza, lutto, scuola, acqua",
+ f_title:"Titolo",f_title_ph:"Es. Un laboratorio di cucito a Matongé",f_summary:"Riassunto in una frase",f_by:"Il tuo nome o associazione",f_city:"Città di residenza",f_country:"Paese d’origine interessato",f_goal:"Obiettivo (€)",f_days:"Durata (giorni)",f_mode:"Modalità di finanziamento",m_aon:"Tutto o niente",m_flex:"Flessibile",f_story:"La tua storia",f_story_ph:"Perché questo progetto? A cosa servirà ogni euro?",
+ po_title:"Ricevere i fondi",po_iban:"Conto bancario nel mio paese di residenza",po_mm:"Mobile money nel paese d’origine",po_iban_l:"IBAN o numero di conto",po_op:"Operatore",po_num:"Numero mobile money",
+ fees_note:"Tariffe previste: progetti con ricompense, 5% di commissione solo se la raccolta ha successo; raccolte solidali, 0% di commissione (sostegno volontario dei contributori). Si aggiungono le commissioni del fornitore di pagamenti. I dati di accredito non vengono conservati in questa dimostrazione.",
+ err_fields:"Compila tutti i campi. L’obiettivo deve essere di almeno 100 €.",err_iban:"Inserisci un IBAN o un numero di conto valido.",err_mm:"Inserisci un numero di mobile money valido.",publish:"Pubblica la raccolta",published:"Raccolta pubblicata",
+ dr1_n:"Ringraziamento",dr1_d:"Il tuo nome nei ringraziamenti.",dr2_n:"Ricompensa principale",dr2_d:"Da precisare a cura del creatore.",
+ how_title:"Come funziona",
+ hs1_t:"Racconti la tua storia",hs1_d:"Titolo, obiettivo, storia, paese interessato. Per un progetto con ricompense, aggiungi ciò che ricevono i sostenitori.",
+ hs2_t:"La condividi",hs2_d:"Famiglia, associazioni, chiese, gruppi WhatsApp. Un unico link, leggibile da telefono.",
+ hs3_t:"Ti sostengono",hs3_d:"Pagamento con carta, bonifico, metodo locale o mobile money, a seconda del tuo paese. L’importo raccolto è visibile in tempo reale.",
+ hs4_t:"Rendi conto",hs4_d:"Foto, fatture, novità. La fiducia della diaspora si costruisce con la trasparenza.",
+ fees_title:"Tariffe",th_type:"Tipo",th_fee:"Commissione SarakaFund",th_fail:"Se l’obiettivo non viene raggiunto",
+ tr1:["Progetto con ricompense, tutto o niente","5% in caso di successo","Nessuno viene addebitato"],tr2:["Progetto con ricompense, flessibile","5% dei fondi raccolti","Il creatore tiene i fondi"],tr3:["Raccolta solidale","0% (sostegno volontario)","Chi la organizza tiene i fondi"],
+ fees_note2:"Si aggiungono le commissioni del fornitore di pagamenti. Tariffe proposte per questo prototipo.",
+ sp_title:"Il mio spazio",my_c:"Le mie raccolte",no_c:"Non hai ancora avviato nessuna raccolta.",start:"Inizia",my_p:"I miei contributi",no_p:"Ancora nessun contributo.",discover:"Scopri i progetti",th_date:"Data",th_proj:"Progetto",th_amt:"Importo",th_pay:"Pagamento",local:"In questo prototipo, questi dati restano su questo dispositivo.",
+ foot:"Prototipo dimostrativo. I progetti di esempio sono fittizi."
+},
+ru:{
+ nav_home:"Главная",nav_explore:"Проекты",nav_how:"Как это работает",nav_space:"Мой кабинет",nav_launch:"Начать сбор",
+ tab_home:"Главная",tab_explore:"Проекты",tab_launch:"Начать",tab_space:"Кабинет",aria_lang:"Язык",
+ from:"Вы поддерживаете из",f_res:"Страна проживания",pm_wallet:"Apple Pay / Google Pay",ccy_note:"Суммы указаны в евро. Ориентировочный пересчёт в вашу валюту (демонстрационные курсы).",
+ h_title:"То, что строит диаспора, мы финансируем вместе.",
+ h_lead:"Из Бельгии, Франции, Канады, Эмиратов, Китая или из любой точки мира: запустите или поддержите проект в Африке. Магазин, альбом, колодец, репатриация, школа. Доноры могут быть из любой страны, суммы в евро, отчёты открыты.",
+ h_cta2:"Смотреть проекты",sec_live:"Текущие сборы",see_all:"Показать все",ways:"Два способа собрать средства",
+ w1_t:"Проект с вознаграждениями",w1_d:"Для творческого или предпринимательского проекта. Спонсоры получают товар, билет или благодарность. «Всё или ничего» либо гибкое финансирование.",
+ w2_t:"Благотворительный сбор",w2_d:"Для экстренной помощи, похорон, школы, колодца. Вы оставляете всё собранное. Без вознаграждений, но с регулярными новостями.",
+ w3_t:"Создано для диаспоры",w3_d:"У каждого проекта указаны страна проживания и страна происхождения, локальная оплата (Bancontact, iDEAL, карта, перевод…) или мобильные деньги, вывод на счёт в вашей стране или в мобильные деньги.",
+ cat_reward:"Проект с вознаграждениями",cat_solidaire:"Благотворительный сбор",tag_ex:"Пример",fictional:"Вымышленный проект для демонстрации. Он не существует, реальные взносы невозможны.",tag_mine:"Мой сбор",
+ pct_aria:"Собрано {p} %",of:"из",backers1:"{n} участник",backersF:"{n} участника",backersN:"{n} участников",days1:"остался {n} день",daysF:"осталось {n} дня",daysN:"осталось {n} дней",reached:"Цель достигнута",ended:"Завершён",
+ explore:"Проекты",f_all:"Все",f_reward:"С вознаграждениями",f_sol:"Благотворительные",f_type_aria:"Тип сбора",f_country_aria:"Страна",all_countries:"Все страны",search:"Поиск",search_ph:"Название, город, организация…",none:"Нет проектов, подходящих под эти фильтры.",
+ back:"← Все проекты",not_found:"Такого проекта нет.",
+ rule_sol:"Благотворительный сбор: организатор оставляет себе все собранные средства.",
+ rule_flex:"Гибкое финансирование: автор оставляет средства, даже если цель не достигнута.",
+ rule_aon:"«Всё или ничего»: если цель не достигнута к сроку, деньги ни с кого не списываются.",
+ collected:"собрано из {g}",backers_lbl:"участников",rewards_aria:"Вознаграждения",amount:"Сумма (€)",tip_lbl:"Поддержка SarakaFund",optional:"по желанию",
+ your_name:"Ваше имя",name_ph:"Имя и фамилия",pay_method:"Способ оплаты",pm_card:"Visa / Mastercard",pm_sepa:"Перевод SEPA",pm_mm:"Мобильные деньги",
+ mm_op:"Оператор",mm_num:"Номер телефона для мобильных денег",mm_conv:"Платёж конвертируется в местную валюту по курсу дня (демонстрация).",
+ fam:"Ваша семья на родине? Она может внести вклад через мобильные деньги, без банковской карты.",
+ contribution:"Взнос",tip_line:"Поддержка SarakaFund",total:"Итого",contribute:"Поддержать",
+ demo:"Демонстрационный режим: реальные платежи не выполняются.",min_amt:"Укажите сумму не менее 1 €",bad_phone:"Укажите корректный номер мобильных денег",thanks:"Спасибо, ваш взнос записан",
+ l_title:"Начать сбор",l_sub:"Хватит пяти минут. Поделиться можно сразу.",
+ t_reward_d:"Творчество, бизнес, культура",t_sol_d:"Экстренная помощь, похороны, школа, вода",
+ f_title:"Название",f_title_ph:"Напр. Швейная мастерская в Матонге",f_summary:"Описание в одном предложении",f_by:"Ваше имя или организация",f_city:"Город проживания",f_country:"Страна, которой помогаете",f_goal:"Цель (€)",f_days:"Срок (дней)",f_mode:"Режим финансирования",m_aon:"Всё или ничего",m_flex:"Гибкий",f_story:"Ваша история",f_story_ph:"Почему этот проект? На что пойдёт каждый евро?",
+ po_title:"Получение средств",po_iban:"Банковский счёт в стране проживания",po_mm:"Мобильные деньги в стране происхождения",po_iban_l:"IBAN или номер счёта",po_op:"Оператор",po_num:"Номер мобильных денег",
+ fees_note:"Планируемые тарифы: проекты с вознаграждениями, комиссия 5 % только при успехе; благотворительные сборы, комиссия 0 % (добровольная поддержка участников). Комиссии платёжного провайдера добавляются. Реквизиты для вывода в этой демонстрации не сохраняются.",
+ err_fields:"Заполните все поля. Цель должна быть не менее 100 €.",err_iban:"Укажите корректный IBAN или номер счёта.",err_mm:"Укажите корректный номер мобильных денег.",publish:"Опубликовать сбор",published:"Сбор опубликован",
+ dr1_n:"Благодарность",dr1_d:"Ваше имя в списке благодарностей.",dr2_n:"Основное вознаграждение",dr2_d:"Уточняется автором.",
+ how_title:"Как это работает",
+ hs1_t:"Вы рассказываете историю",hs1_d:"Название, цель, история, страна. Для проекта с вознаграждениями добавьте, что получают участники.",
+ hs2_t:"Вы делитесь ссылкой",hs2_d:"Семья, организации, церкви, группы в WhatsApp. Одна ссылка, удобная на телефоне.",
+ hs3_t:"Вас поддерживают",hs3_d:"Оплата картой, переводом, местным способом или мобильными деньгами, в зависимости от вашей страны. Собранная сумма обновляется в реальном времени.",
+ hs4_t:"Вы отчитываетесь",hs4_d:"Фото, счета, новости. Доверие в диаспоре строится на прозрачности.",
+ fees_title:"Тарифы",th_type:"Тип",th_fee:"Комиссия SarakaFund",th_fail:"Если цель не достигнута",
+ tr1:["Проект с вознаграждениями, всё или ничего","5 % при успехе","Ни с кого не списываются деньги"],tr2:["Проект с вознаграждениями, гибкий","5 % от собранных средств","Автор оставляет средства"],tr3:["Благотворительный сбор","0 % (добровольная поддержка)","Организатор оставляет средства"],
+ fees_note2:"Комиссии платёжного провайдера добавляются. Тарифы предложены для этого прототипа.",
+ sp_title:"Мой кабинет",my_c:"Мои сборы",no_c:"Вы ещё не начали ни одного сбора.",start:"Начать",my_p:"Мои взносы",no_p:"Пока нет взносов.",discover:"Посмотреть проекты",th_date:"Дата",th_proj:"Проект",th_amt:"Сумма",th_pay:"Оплата",local:"В этом прототипе данные остаются на этом устройстве.",
+ foot:"Демонстрационный прототип. Примеры проектов вымышлены."
+},
+zh:{
+ nav_home:"首页",nav_explore:"发现项目",nav_how:"如何运作",nav_space:"我的空间",nav_launch:"发起筹款",
+ tab_home:"首页",tab_explore:"发现",tab_launch:"发起",tab_space:"我的",aria_lang:"语言",
+ from:"您来自",f_res:"您居住的国家",pm_wallet:"Apple Pay / Google Pay",ccy_note:"金额以欧元计。按您的货币显示参考换算（演示汇率）。",
+ h_title:"侨民所建设的，我们一起出资。",
+ h_lead:"无论您身在比利时、法国、加拿大、阿联酋、中国还是世界任何地方，都可以发起或支持非洲的项目：一家店铺、一张专辑、一口水井、一次遗体送返、一所学校。捐助者可来自任何国家，金额以欧元计，进展报告公开透明。",
+ h_cta2:"浏览项目",sec_live:"进行中的筹款",see_all:"查看全部",ways:"两种筹款方式",
+ w1_t:"回报型项目",w1_d:"适用于创意或创业项目。支持者可获得产品、门票或感谢。可选“全有或全无”，也可选灵活筹资。",
+ w2_t:"公益互助筹款",w2_d:"适用于紧急情况、丧事、学校、水井。所筹款项全部归您。没有回报，但会定期通报进展。",
+ w3_t:"为侨民而设计",w3_d:"每个项目都标明居住国与来源国，支持本地支付方式（Bancontact、iDEAL、银行卡、转账等）或移动支付，款项可汇入您所在国的账户或移动支付账户。",
+ cat_reward:"回报型项目",cat_solidaire:"公益互助筹款",tag_ex:"示例",fictional:"为演示创建的虚构项目。该项目并不存在，无法进行真实捐款。",tag_mine:"我的筹款",
+ pct_aria:"已筹集 {p}%",of:"/",backers1:"{n} 位支持者",backersN:"{n} 位支持者",days1:"还剩 {n} 天",daysN:"还剩 {n} 天",reached:"已达成目标",ended:"已结束",
+ explore:"发现项目",f_all:"全部",f_reward:"回报型",f_sol:"公益",f_type_aria:"筹款类型",f_country_aria:"国家",all_countries:"所有国家",search:"搜索",search_ph:"标题、城市、组织…",none:"没有符合这些筛选条件的项目。",
+ back:"← 所有项目",not_found:"该项目不存在。",
+ rule_sol:"公益互助筹款：发起人保留所筹集的全部款项。",
+ rule_flex:"灵活筹资：即使未达成目标，发起人也保留已筹款项。",
+ rule_aon:"全有或全无：截止日期前未达成目标，则不向任何人扣款。",
+ collected:"已筹集，目标 {g}",backers_lbl:"位支持者",rewards_aria:"回报档位",amount:"金额（€）",tip_lbl:"支持 SarakaFund",optional:"可选",
+ your_name:"您的姓名",name_ph:"姓名",pay_method:"支付方式",pm_card:"Visa / Mastercard",pm_sepa:"SEPA 转账",pm_mm:"移动支付",
+ mm_op:"运营商",mm_num:"移动支付手机号",mm_conv:"款项将按当日汇率换算为当地货币（演示）。",
+ fam:"家人在家乡？他们可以通过移动支付参与，无需银行卡。",
+ contribution:"支持金额",tip_line:"支持 SarakaFund",total:"合计",contribute:"支持",
+ demo:"演示模式：不会进行真实支付。",min_amt:"请输入至少 1 € 的金额",bad_phone:"请输入有效的移动支付号码",thanks:"谢谢，您的支持已记录",
+ l_title:"发起筹款",l_sub:"五分钟即可完成，发布后可立即分享。",
+ t_reward_d:"创作、创业、文化",t_sol_d:"紧急情况、丧事、学校、饮水",
+ f_title:"标题",f_title_ph:"例如：马通盖的缝纫工坊",f_summary:"一句话简介",f_by:"您的姓名或组织",f_city:"居住城市",f_country:"受益的来源国",f_goal:"目标金额（€）",f_days:"筹款天数",f_mode:"筹资模式",m_aon:"全有或全无",m_flex:"灵活",f_story:"您的故事",f_story_ph:"为什么发起这个项目？每一欧元将用于什么？",
+ po_title:"接收款项",po_iban:"我居住国的银行账户",po_mm:"来源国的移动支付",po_iban_l:"IBAN 或账号",po_op:"运营商",po_num:"移动支付号码",
+ fees_note:"计划费率：回报型项目仅在筹款成功时收取 5% 佣金；公益互助筹款佣金为 0%（支持者自愿支持平台）。支付服务商的费用另计。本演示不会保存收款信息。",
+ err_fields:"请填写所有字段，目标金额不得低于 100 €。",err_iban:"请输入有效的 IBAN 或账号。",err_mm:"请输入有效的移动支付号码。",publish:"发布筹款",published:"筹款已发布",
+ dr1_n:"感谢",dr1_d:"您的名字将出现在感谢名单中。",dr2_n:"主要回报",dr2_d:"由发起人补充说明。",
+ how_title:"如何运作",
+ hs1_t:"讲述您的故事",hs1_d:"填写标题、目标、故事和受益国家。回报型项目还需说明支持者将获得什么。",
+ hs2_t:"分享出去",hs2_d:"家人、社团、教会、WhatsApp 群。一个链接，手机上阅读顺畅。",
+ hs3_t:"获得支持",hs3_d:"根据所在国家，可用银行卡、转账、本地支付方式或移动支付。已筹金额实时显示。",
+ hs4_t:"公开汇报",hs4_d:"照片、发票、进展。侨民社群的信任建立在透明之上。",
+ fees_title:"费率",th_type:"类型",th_fee:"SarakaFund 佣金",th_fail:"未达成目标时",
+ tr1:["回报型项目，全有或全无","成功后收取 5%","不向任何人扣款"],tr2:["回报型项目，灵活筹资","按已筹款项收取 5%","发起人保留款项"],tr3:["公益互助筹款","0%（自愿支持）","发起人保留款项"],
+ fees_note2:"支付服务商的费用另计。此为本原型的拟定费率。",
+ sp_title:"我的空间",my_c:"我的筹款",no_c:"您还没有发起筹款。",start:"开始",my_p:"我的支持",no_p:"暂无支持记录。",discover:"发现项目",th_date:"日期",th_proj:"项目",th_amt:"金额",th_pay:"支付方式",local:"在本原型中，这些数据仅保存在此设备上。",
+ foot:"演示原型，示例项目均为虚构。"
+}
+};
+const D_ACC={
+fr:{acc_login:"Se connecter",acc_signup:"Créer mon compte",acc_logout:"Se déconnecter",acc_email:"Adresse e-mail",acc_pass:"Mot de passe (8 caractères minimum)",acc_name:"Votre nom",acc_have:"Vous avez déjà un compte ?",acc_new:"Pas encore de compte ?",acc_t_signup:"Créer votre compte",acc_t_login:"Connexion",acc_why:"Un compte gratuit permet de suivre vos contreparties, de voir le budget détaillé et les nouvelles des porteurs de projet.",acc_demo:"Démonstration : le compte reste sur cet appareil. Un vrai compte nécessitera un serveur sécurisé.",
+ err_email:"Indiquez une adresse e-mail valide.",err_pass:"Le mot de passe doit contenir au moins 8 caractères.",err_login:"E-mail ou mot de passe incorrect.",err_exists:"Un compte existe déjà avec cet e-mail.",err_name:"Indiquez votre nom.",
+ hello:"Bonjour {n}",t_created:"Compte créé",t_in:"Vous êtes connecté",t_out:"Vous êtes déconnecté",
+ mem_t:"Réservé aux membres",mem_d:"Créez un compte gratuit pour voir le budget détaillé, les nouvelles du porteur et suivre votre contrepartie.",
+ bud_t:"Budget prévisionnel",bud_note:"Répartition d’exemple pour la démonstration.",b_prod:"Production",b_deliv:"Livraison des contreparties",b_fee:"Commission de la plateforme",b_pay:"Frais de paiement",b_res:"Réserve pour imprévus",b_direct:"Utilisation directe sur le terrain",b_follow:"Suivi et justificatifs",
+ upd_t:"Nouvelles du porteur",upd_none:"Aucune nouvelle pour l’instant.",upd_ph:"Écrivez une nouvelle pour vos contributeurs…",upd_post:"Publier",upd_ok:"Nouvelle publiée",
+ trk_t:"Suivi de mes contreparties",st0:"Paiement reçu",st1:"En préparation",st2:"Expédiée",st3:"Livrée",st_adv:"Simuler l’étape suivante (démo)",trk_none:"Aucune contrepartie à suivre pour l’instant.",addr_lbl:"Adresse de livraison",addr_ph:"Rue, numéro, code postal, ville, pays",addr_save:"Enregistrer l’adresse",addr_ok:"Adresse enregistrée",
+ thanks_acc:"Merci ! Créez un compte pour suivre votre contrepartie.",need_launch:"Connectez-vous ou créez un compte pour lancer une collecte."},
+en:{acc_login:"Log in",acc_signup:"Create my account",acc_logout:"Log out",acc_email:"Email address",acc_pass:"Password (at least 8 characters)",acc_name:"Your name",acc_have:"Already have an account?",acc_new:"No account yet?",acc_t_signup:"Create your account",acc_t_login:"Log in",acc_why:"A free account lets you track your rewards, see the detailed budget and read updates from project creators.",acc_demo:"Demo: the account stays on this device. A real account will need a secure server.",
+ err_email:"Enter a valid email address.",err_pass:"The password must be at least 8 characters.",err_login:"Incorrect email or password.",err_exists:"An account already exists with this email.",err_name:"Enter your name.",
+ hello:"Hello {n}",t_created:"Account created",t_in:"You are logged in",t_out:"You are logged out",
+ mem_t:"Members only",mem_d:"Create a free account to see the detailed budget, updates from the creator and to track your reward.",
+ bud_t:"Planned budget",bud_note:"Sample breakdown for the demo.",b_prod:"Production",b_deliv:"Reward delivery",b_fee:"Platform commission",b_pay:"Payment fees",b_res:"Contingency reserve",b_direct:"Direct use on the ground",b_follow:"Follow-up and receipts",
+ upd_t:"Updates from the creator",upd_none:"No updates yet.",upd_ph:"Write an update for your backers…",upd_post:"Post",upd_ok:"Update posted",
+ trk_t:"Tracking my rewards",st0:"Payment received",st1:"Being prepared",st2:"Shipped",st3:"Delivered",st_adv:"Simulate next step (demo)",trk_none:"No rewards to track yet.",addr_lbl:"Delivery address",addr_ph:"Street, number, postal code, city, country",addr_save:"Save address",addr_ok:"Address saved",
+ thanks_acc:"Thank you! Create an account to track your reward.",need_launch:"Log in or create an account to start a campaign."},
+nl:{acc_login:"Inloggen",acc_signup:"Mijn account aanmaken",acc_logout:"Uitloggen",acc_email:"E-mailadres",acc_pass:"Wachtwoord (minstens 8 tekens)",acc_name:"Uw naam",acc_have:"Hebt u al een account?",acc_new:"Nog geen account?",acc_t_signup:"Uw account aanmaken",acc_t_login:"Inloggen",acc_why:"Met een gratis account volgt u uw tegenprestaties, ziet u het gedetailleerde budget en leest u het nieuws van de projectmakers.",acc_demo:"Demo: het account blijft op dit toestel. Een echt account vereist een beveiligde server.",
+ err_email:"Geef een geldig e-mailadres in.",err_pass:"Het wachtwoord moet minstens 8 tekens bevatten.",err_login:"Onjuist e-mailadres of wachtwoord.",err_exists:"Er bestaat al een account met dit e-mailadres.",err_name:"Geef uw naam in.",
+ hello:"Hallo {n}",t_created:"Account aangemaakt",t_in:"U bent ingelogd",t_out:"U bent uitgelogd",
+ mem_t:"Alleen voor leden",mem_d:"Maak een gratis account om het gedetailleerde budget en het nieuws van de maker te zien en uw tegenprestatie te volgen.",
+ bud_t:"Geplande begroting",bud_note:"Voorbeeldverdeling voor de demo.",b_prod:"Productie",b_deliv:"Levering van tegenprestaties",b_fee:"Commissie van het platform",b_pay:"Betaalkosten",b_res:"Reserve voor onvoorziene kosten",b_direct:"Rechtstreeks gebruik ter plaatse",b_follow:"Opvolging en bewijsstukken",
+ upd_t:"Nieuws van de maker",upd_none:"Nog geen nieuws.",upd_ph:"Schrijf nieuws voor uw steuners…",upd_post:"Publiceren",upd_ok:"Nieuws gepubliceerd",
+ trk_t:"Opvolging van mijn tegenprestaties",st0:"Betaling ontvangen",st1:"In voorbereiding",st2:"Verzonden",st3:"Geleverd",st_adv:"Volgende stap simuleren (demo)",trk_none:"Nog geen tegenprestaties om te volgen.",addr_lbl:"Leveringsadres",addr_ph:"Straat, nummer, postcode, stad, land",addr_save:"Adres opslaan",addr_ok:"Adres opgeslagen",
+ thanks_acc:"Bedankt! Maak een account aan om uw tegenprestatie te volgen.",need_launch:"Log in of maak een account aan om een actie te starten."},
+de:{acc_login:"Anmelden",acc_signup:"Konto erstellen",acc_logout:"Abmelden",acc_email:"E-Mail-Adresse",acc_pass:"Passwort (mindestens 8 Zeichen)",acc_name:"Ihr Name",acc_have:"Sie haben bereits ein Konto?",acc_new:"Noch kein Konto?",acc_t_signup:"Konto erstellen",acc_t_login:"Anmelden",acc_why:"Mit einem kostenlosen Konto verfolgen Sie Ihre Gegenleistungen, sehen das detaillierte Budget und lesen Neuigkeiten der Projektverantwortlichen.",acc_demo:"Demo: Das Konto bleibt auf diesem Gerät. Ein echtes Konto benötigt einen sicheren Server.",
+ err_email:"Geben Sie eine gültige E-Mail-Adresse ein.",err_pass:"Das Passwort muss mindestens 8 Zeichen haben.",err_login:"E-Mail oder Passwort falsch.",err_exists:"Mit dieser E-Mail-Adresse existiert bereits ein Konto.",err_name:"Geben Sie Ihren Namen ein.",
+ hello:"Hallo {n}",t_created:"Konto erstellt",t_in:"Sie sind angemeldet",t_out:"Sie sind abgemeldet",
+ mem_t:"Nur für Mitglieder",mem_d:"Erstellen Sie ein kostenloses Konto, um das detaillierte Budget und die Neuigkeiten der Initiatoren zu sehen und Ihre Gegenleistung zu verfolgen.",
+ bud_t:"Geplantes Budget",bud_note:"Beispielverteilung für die Demo.",b_prod:"Produktion",b_deliv:"Lieferung der Gegenleistungen",b_fee:"Provision der Plattform",b_pay:"Zahlungsgebühren",b_res:"Reserve für Unvorhergesehenes",b_direct:"Direkte Verwendung vor Ort",b_follow:"Nachverfolgung und Belege",
+ upd_t:"Neuigkeiten der Initiatoren",upd_none:"Noch keine Neuigkeiten.",upd_ph:"Schreiben Sie eine Neuigkeit für Ihre Unterstützer …",upd_post:"Veröffentlichen",upd_ok:"Neuigkeit veröffentlicht",
+ trk_t:"Verfolgung meiner Gegenleistungen",st0:"Zahlung erhalten",st1:"In Vorbereitung",st2:"Versendet",st3:"Geliefert",st_adv:"Nächsten Schritt simulieren (Demo)",trk_none:"Noch keine Gegenleistungen zu verfolgen.",addr_lbl:"Lieferadresse",addr_ph:"Straße, Nummer, PLZ, Ort, Land",addr_save:"Adresse speichern",addr_ok:"Adresse gespeichert",
+ thanks_acc:"Danke! Erstellen Sie ein Konto, um Ihre Gegenleistung zu verfolgen.",need_launch:"Melden Sie sich an oder erstellen Sie ein Konto, um eine Aktion zu starten."},
+es:{acc_login:"Iniciar sesión",acc_signup:"Crear mi cuenta",acc_logout:"Cerrar sesión",acc_email:"Correo electrónico",acc_pass:"Contraseña (mínimo 8 caracteres)",acc_name:"Tu nombre",acc_have:"¿Ya tienes una cuenta?",acc_new:"¿Aún no tienes cuenta?",acc_t_signup:"Crea tu cuenta",acc_t_login:"Iniciar sesión",acc_why:"Una cuenta gratuita permite seguir tus recompensas, ver el presupuesto detallado y leer las novedades de los creadores.",acc_demo:"Demostración: la cuenta se queda en este dispositivo. Una cuenta real necesitará un servidor seguro.",
+ err_email:"Indica un correo electrónico válido.",err_pass:"La contraseña debe tener al menos 8 caracteres.",err_login:"Correo o contraseña incorrectos.",err_exists:"Ya existe una cuenta con este correo.",err_name:"Indica tu nombre.",
+ hello:"Hola {n}",t_created:"Cuenta creada",t_in:"Has iniciado sesión",t_out:"Has cerrado sesión",
+ mem_t:"Solo para miembros",mem_d:"Crea una cuenta gratuita para ver el presupuesto detallado, las novedades del creador y seguir tu recompensa.",
+ bud_t:"Presupuesto previsto",bud_note:"Reparto de ejemplo para la demostración.",b_prod:"Producción",b_deliv:"Entrega de recompensas",b_fee:"Comisión de la plataforma",b_pay:"Gastos de pago",b_res:"Reserva para imprevistos",b_direct:"Uso directo sobre el terreno",b_follow:"Seguimiento y justificantes",
+ upd_t:"Novedades del creador",upd_none:"Aún no hay novedades.",upd_ph:"Escribe una novedad para tus mecenas…",upd_post:"Publicar",upd_ok:"Novedad publicada",
+ trk_t:"Seguimiento de mis recompensas",st0:"Pago recibido",st1:"En preparación",st2:"Enviada",st3:"Entregada",st_adv:"Simular el siguiente paso (demo)",trk_none:"Todavía no hay recompensas que seguir.",addr_lbl:"Dirección de entrega",addr_ph:"Calle, número, código postal, ciudad, país",addr_save:"Guardar dirección",addr_ok:"Dirección guardada",
+ thanks_acc:"¡Gracias! Crea una cuenta para seguir tu recompensa.",need_launch:"Inicia sesión o crea una cuenta para lanzar una campaña."},
+pt:{acc_login:"Iniciar sessão",acc_signup:"Criar a minha conta",acc_logout:"Terminar sessão",acc_email:"Endereço de e-mail",acc_pass:"Palavra-passe (mínimo 8 caracteres)",acc_name:"O seu nome",acc_have:"Já tem uma conta?",acc_new:"Ainda não tem conta?",acc_t_signup:"Crie a sua conta",acc_t_login:"Iniciar sessão",acc_why:"Uma conta gratuita permite acompanhar as suas recompensas, ver o orçamento detalhado e ler as novidades dos criadores.",acc_demo:"Demonstração: a conta fica neste dispositivo. Uma conta real exigirá um servidor seguro.",
+ err_email:"Indique um e-mail válido.",err_pass:"A palavra-passe deve ter pelo menos 8 caracteres.",err_login:"E-mail ou palavra-passe incorretos.",err_exists:"Já existe uma conta com este e-mail.",err_name:"Indique o seu nome.",
+ hello:"Olá {n}",t_created:"Conta criada",t_in:"Sessão iniciada",t_out:"Sessão terminada",
+ mem_t:"Reservado a membros",mem_d:"Crie uma conta gratuita para ver o orçamento detalhado, as novidades do criador e acompanhar a sua recompensa.",
+ bud_t:"Orçamento previsto",bud_note:"Distribuição de exemplo para a demonstração.",b_prod:"Produção",b_deliv:"Entrega das recompensas",b_fee:"Comissão da plataforma",b_pay:"Taxas de pagamento",b_res:"Reserva para imprevistos",b_direct:"Utilização direta no terreno",b_follow:"Acompanhamento e comprovativos",
+ upd_t:"Novidades do criador",upd_none:"Ainda sem novidades.",upd_ph:"Escreva uma novidade para os seus apoiantes…",upd_post:"Publicar",upd_ok:"Novidade publicada",
+ trk_t:"Acompanhamento das minhas recompensas",st0:"Pagamento recebido",st1:"Em preparação",st2:"Enviada",st3:"Entregue",st_adv:"Simular o passo seguinte (demo)",trk_none:"Ainda não há recompensas para acompanhar.",addr_lbl:"Morada de entrega",addr_ph:"Rua, número, código postal, cidade, país",addr_save:"Guardar morada",addr_ok:"Morada guardada",
+ thanks_acc:"Obrigado! Crie uma conta para acompanhar a sua recompensa.",need_launch:"Inicie sessão ou crie uma conta para lançar uma campanha."},
+it:{acc_login:"Accedi",acc_signup:"Crea il mio account",acc_logout:"Esci",acc_email:"Indirizzo e-mail",acc_pass:"Password (almeno 8 caratteri)",acc_name:"Il tuo nome",acc_have:"Hai già un account?",acc_new:"Non hai ancora un account?",acc_t_signup:"Crea il tuo account",acc_t_login:"Accesso",acc_why:"Un account gratuito permette di seguire le tue ricompense, vedere il budget dettagliato e leggere le novità dei creatori.",acc_demo:"Dimostrazione: l’account resta su questo dispositivo. Un vero account richiederà un server sicuro.",
+ err_email:"Inserisci un indirizzo e-mail valido.",err_pass:"La password deve contenere almeno 8 caratteri.",err_login:"E-mail o password errate.",err_exists:"Esiste già un account con questa e-mail.",err_name:"Inserisci il tuo nome.",
+ hello:"Ciao {n}",t_created:"Account creato",t_in:"Hai effettuato l’accesso",t_out:"Hai effettuato l’uscita",
+ mem_t:"Riservato ai membri",mem_d:"Crea un account gratuito per vedere il budget dettagliato, le novità del creatore e seguire la tua ricompensa.",
+ bud_t:"Budget previsto",bud_note:"Ripartizione di esempio per la dimostrazione.",b_prod:"Produzione",b_deliv:"Consegna delle ricompense",b_fee:"Commissione della piattaforma",b_pay:"Costi di pagamento",b_res:"Riserva per imprevisti",b_direct:"Utilizzo diretto sul campo",b_follow:"Monitoraggio e giustificativi",
+ upd_t:"Novità del creatore",upd_none:"Ancora nessuna novità.",upd_ph:"Scrivi una novità per i tuoi sostenitori…",upd_post:"Pubblica",upd_ok:"Novità pubblicata",
+ trk_t:"Monitoraggio delle mie ricompense",st0:"Pagamento ricevuto",st1:"In preparazione",st2:"Spedita",st3:"Consegnata",st_adv:"Simula il passaggio successivo (demo)",trk_none:"Ancora nessuna ricompensa da seguire.",addr_lbl:"Indirizzo di consegna",addr_ph:"Via, numero, CAP, città, paese",addr_save:"Salva indirizzo",addr_ok:"Indirizzo salvato",
+ thanks_acc:"Grazie! Crea un account per seguire la tua ricompensa.",need_launch:"Accedi o crea un account per avviare una raccolta."},
+ru:{acc_login:"Войти",acc_signup:"Создать аккаунт",acc_logout:"Выйти",acc_email:"Адрес электронной почты",acc_pass:"Пароль (не менее 8 символов)",acc_name:"Ваше имя",acc_have:"Уже есть аккаунт?",acc_new:"Ещё нет аккаунта?",acc_t_signup:"Создайте аккаунт",acc_t_login:"Вход",acc_why:"Бесплатный аккаунт позволяет следить за вознаграждениями, видеть подробный бюджет и читать новости авторов проектов.",acc_demo:"Демонстрация: аккаунт хранится на этом устройстве. Для настоящего аккаунта потребуется защищённый сервер.",
+ err_email:"Укажите корректный адрес электронной почты.",err_pass:"Пароль должен содержать не менее 8 символов.",err_login:"Неверная почта или пароль.",err_exists:"Аккаунт с такой почтой уже существует.",err_name:"Укажите ваше имя.",
+ hello:"Здравствуйте, {n}",t_created:"Аккаунт создан",t_in:"Вы вошли",t_out:"Вы вышли",
+ mem_t:"Только для участников",mem_d:"Создайте бесплатный аккаунт, чтобы видеть подробный бюджет, новости автора и следить за своим вознаграждением.",
+ bud_t:"Плановый бюджет",bud_note:"Примерное распределение для демонстрации.",b_prod:"Производство",b_deliv:"Доставка вознаграждений",b_fee:"Комиссия платформы",b_pay:"Платёжные комиссии",b_res:"Резерв на непредвиденное",b_direct:"Прямое использование на месте",b_follow:"Контроль и подтверждающие документы",
+ upd_t:"Новости автора",upd_none:"Пока нет новостей.",upd_ph:"Напишите новость для ваших участников…",upd_post:"Опубликовать",upd_ok:"Новость опубликована",
+ trk_t:"Отслеживание моих вознаграждений",st0:"Платёж получен",st1:"Готовится",st2:"Отправлено",st3:"Доставлено",st_adv:"Смоделировать следующий этап (демо)",trk_none:"Пока нет вознаграждений для отслеживания.",addr_lbl:"Адрес доставки",addr_ph:"Улица, дом, индекс, город, страна",addr_save:"Сохранить адрес",addr_ok:"Адрес сохранён",
+ thanks_acc:"Спасибо! Создайте аккаунт, чтобы отслеживать своё вознаграждение.",need_launch:"Войдите или создайте аккаунт, чтобы начать сбор."},
+zh:{acc_login:"登录",acc_signup:"创建账户",acc_logout:"退出登录",acc_email:"电子邮箱",acc_pass:"密码（至少 8 个字符）",acc_name:"您的姓名",acc_have:"已有账户？",acc_new:"还没有账户？",acc_t_signup:"创建您的账户",acc_t_login:"登录",acc_why:"免费账户可让您跟踪回报进度、查看详细预算并阅读发起人的动态。",acc_demo:"演示：账户仅保存在此设备上。真实账户需要安全的服务器。",
+ err_email:"请输入有效的电子邮箱。",err_pass:"密码至少需要 8 个字符。",err_login:"邮箱或密码不正确。",err_exists:"该邮箱已注册账户。",err_name:"请输入您的姓名。",
+ hello:"您好，{n}",t_created:"账户已创建",t_in:"您已登录",t_out:"您已退出登录",
+ mem_t:"仅限会员",mem_d:"创建免费账户，即可查看详细预算、发起人的动态，并跟踪您的回报。",
+ bud_t:"预算计划",bud_note:"演示用的示例分配。",b_prod:"制作",b_deliv:"回报配送",b_fee:"平台佣金",b_pay:"支付费用",b_res:"应急储备",b_direct:"现场直接使用",b_follow:"跟进与凭证",
+ upd_t:"发起人动态",upd_none:"暂无动态。",upd_ph:"为您的支持者写一条动态…",upd_post:"发布",upd_ok:"动态已发布",
+ trk_t:"我的回报跟踪",st0:"已收到付款",st1:"准备中",st2:"已发货",st3:"已送达",st_adv:"模拟下一步（演示）",trk_none:"暂无可跟踪的回报。",addr_lbl:"收货地址",addr_ph:"街道、门牌号、邮编、城市、国家",addr_save:"保存地址",addr_ok:"地址已保存",
+ thanks_acc:"谢谢！创建账户即可跟踪您的回报。",need_launch:"请登录或创建账户后发起筹款。"}
+};
+Object.keys(D_ACC).forEach(l=>Object.assign(D[l],D_ACC[l]));
+function t(k,v){let s=(D[lang][k]!==undefined?D[lang][k]:D.fr[k]);if(s===undefined)return k;
+  return typeof s==='string'?s.replace(/\{(\w+)\}/g,(m,n)=>v&&v[n]!=null?v[n]:m):s}
+const eur=n=>new Intl.NumberFormat(LOC[lang],{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const eur2=n=>new Intl.NumberFormat(LOC[lang],{style:'currency',currency:'EUR'}).format(n);
+/* ---------- pays et mobile money ---------- */
+const CO={
+ CM:{fr:'Cameroun',en:'Cameroon',nl:'Kameroen',dial:'+237',mm:['Orange Money','MTN MoMo']},
+ SN:{fr:'Sénégal',en:'Senegal',nl:'Senegal',dial:'+221',mm:['Wave','Orange Money','Free Money']},
+ CD:{fr:'RDC',en:'DR Congo',nl:'DR Congo',dial:'+243',mm:['M-Pesa','Orange Money','Airtel Money']},
+ CI:{fr:'Côte d’Ivoire',en:'Ivory Coast',nl:'Ivoorkust',dial:'+225',mm:['Wave','Orange Money','MTN MoMo','Moov Money']},
+ ML:{fr:'Mali',en:'Mali',nl:'Mali',dial:'+223',mm:['Orange Money','Moov Money']},
+ BJ:{fr:'Bénin',en:'Benin',nl:'Benin',dial:'+229',mm:['MTN MoMo','Moov Money']},
+ RW:{fr:'Rwanda',en:'Rwanda',nl:'Rwanda',dial:'+250',mm:['MTN MoMo','Airtel Money']},
+ GH:{fr:'Ghana',en:'Ghana',nl:'Ghana',dial:'+233',mm:['MTN MoMo','Telecel Cash','AirtelTigo Money']},
+ NG:{fr:'Nigeria',en:'Nigeria',nl:'Nigeria',dial:'+234',mm:['OPay','PalmPay']},
+ MA:{fr:'Maroc',en:'Morocco',nl:'Marokko',dial:'+212',mm:['Orange Money','inwi money']},
+ GN:{fr:'Guinée',en:'Guinea',nl:'Guinee',dial:'+224',mm:['Orange Money','MTN MoMo']},
+ TG:{fr:'Togo',en:'Togo',nl:'Togo',dial:'+228',mm:['Moov Money','T-Money']},
+ BI:{fr:'Burundi',en:'Burundi',nl:'Burundi',dial:'+257',mm:['Lumicash','EcoCash']},
+ XX:{fr:'Autre',en:'Other',nl:'Ander',dial:'+',mm:['Orange Money','MTN MoMo','Wave','M-Pesa','Airtel Money']}
+};
+const cname=c=>(CO[c]||CO.XX)[lang];
+const ops=c=>(CO[c]||CO.XX).mm;
+const RES={
+ BE:{fr:'Belgique',en:'Belgium',nl:'België',ccy:'EUR',loc:['Bancontact','SEPA']},
+ FR:{fr:'France',en:'France',nl:'Frankrijk',ccy:'EUR',loc:['SEPA']},
+ NL:{fr:'Pays-Bas',en:'Netherlands',nl:'Nederland',ccy:'EUR',loc:['iDEAL','SEPA']},
+ DE:{fr:'Allemagne',en:'Germany',nl:'Duitsland',ccy:'EUR',loc:['SEPA']},
+ LU:{fr:'Luxembourg',en:'Luxembourg',nl:'Luxemburg',ccy:'EUR',loc:['SEPA']},
+ IT:{fr:'Italie',en:'Italy',nl:'Italië',ccy:'EUR',loc:['SEPA']},
+ ES:{fr:'Espagne',en:'Spain',nl:'Spanje',ccy:'EUR',loc:['SEPA']},
+ PT:{fr:'Portugal',en:'Portugal',nl:'Portugal',ccy:'EUR',loc:['SEPA']},
+ IE:{fr:'Irlande',en:'Ireland',nl:'Ierland',ccy:'EUR',loc:['SEPA']},
+ CH:{fr:'Suisse',en:'Switzerland',nl:'Zwitserland',ccy:'CHF',loc:['TWINT']},
+ GB:{fr:'Royaume-Uni',en:'United Kingdom',nl:'Verenigd Koninkrijk',ccy:'GBP',loc:['Open banking']},
+ US:{fr:'États-Unis',en:'United States',nl:'Verenigde Staten',ccy:'USD',loc:['ACH']},
+ CA:{fr:'Canada',en:'Canada',nl:'Canada',ccy:'CAD',loc:['Interac']}
+};
+const RATE={EUR:1,GBP:.86,USD:1.08,CAD:1.48,CHF:.94,SEK:11.6,NOK:11.7,DKK:7.46,AUD:1.65,NZD:1.8,JPY:163,CNY:7.8,AED:3.97,BRL:5.9,ZAR:19.5};
+Object.assign(RES,{
+ AT:{fr:'Autriche',en:'Austria',nl:'Oostenrijk',ccy:'EUR',loc:['SEPA']},
+ SE:{fr:'Suède',en:'Sweden',nl:'Zweden',ccy:'SEK',loc:['Swish']},
+ NO:{fr:'Norvège',en:'Norway',nl:'Noorwegen',ccy:'NOK',loc:['Vipps']},
+ DK:{fr:'Danemark',en:'Denmark',nl:'Denemarken',ccy:'DKK',loc:['MobilePay']},
+ AU:{fr:'Australie',en:'Australia',nl:'Australië',ccy:'AUD',loc:['PayID']},
+ NZ:{fr:'Nouvelle-Zélande',en:'New Zealand',nl:'Nieuw-Zeeland',ccy:'NZD',loc:[]},
+ JP:{fr:'Japon',en:'Japan',nl:'Japan',ccy:'JPY',loc:[]},
+ CN:{fr:'Chine',en:'China',nl:'China',ccy:'CNY',loc:['Alipay','WeChat Pay']},
+ AE:{fr:'Émirats arabes unis',en:'United Arab Emirates',nl:'Verenigde Arabische Emiraten',ccy:'AED',loc:[]},
+ BR:{fr:'Brésil',en:'Brazil',nl:'Brazilië',ccy:'BRL',loc:['Pix']},
+ ZA:{fr:'Afrique du Sud',en:'South Africa',nl:'Zuid-Afrika',ccy:'ZAR',loc:['EFT']},
+ OT:{fr:'Autre pays',en:'Other country',nl:'Ander land',ccy:'EUR',loc:['SEPA']}
+});
+const CO_K=['CM','SN','CD','CI','ML','BJ','RW','GH','NG','MA','GN','TG','BI','XX'],RES_K=['BE','FR','NL','DE','LU','IT','ES','PT','IE','CH','GB','US','CA','AT','SE','NO','DK','AU','NZ','JP','CN','AE','BR','ZA','OT'];
+const NMC={
+ de:'Kamerun|Senegal|DR Kongo|Elfenbeinküste|Mali|Benin|Ruanda|Ghana|Nigeria|Marokko|Guinea|Togo|Burundi|Andere',
+ es:'Camerún|Senegal|RD Congo|Costa de Marfil|Malí|Benín|Ruanda|Ghana|Nigeria|Marruecos|Guinea|Togo|Burundi|Otro',
+ pt:'Camarões|Senegal|RD Congo|Costa do Marfim|Mali|Benim|Ruanda|Gana|Nigéria|Marrocos|Guiné|Togo|Burúndi|Outro',
+ it:'Camerun|Senegal|RD Congo|Costa d’Avorio|Mali|Benin|Ruanda|Ghana|Nigeria|Marocco|Guinea|Togo|Burundi|Altro',
+ ru:'Камерун|Сенегал|ДР Конго|Кот-д’Ивуар|Мали|Бенин|Руанда|Гана|Нигерия|Марокко|Гвинея|Того|Бурунди|Другая',
+ zh:'喀麦隆|塞内加尔|刚果（金）|科特迪瓦|马里|贝宁|卢旺达|加纳|尼日利亚|摩洛哥|几内亚|多哥|布隆迪|其他'};
+const NMR={
+ de:'Belgien|Frankreich|Niederlande|Deutschland|Luxemburg|Italien|Spanien|Portugal|Irland|Schweiz|Vereinigtes Königreich|USA|Kanada|Österreich|Schweden|Norwegen|Dänemark|Australien|Neuseeland|Japan|China|Vereinigte Arabische Emirate|Brasilien|Südafrika|Anderes Land',
+ es:'Bélgica|Francia|Países Bajos|Alemania|Luxemburgo|Italia|España|Portugal|Irlanda|Suiza|Reino Unido|Estados Unidos|Canadá|Austria|Suecia|Noruega|Dinamarca|Australia|Nueva Zelanda|Japón|China|Emiratos Árabes Unidos|Brasil|Sudáfrica|Otro país',
+ pt:'Bélgica|França|Países Baixos|Alemanha|Luxemburgo|Itália|Espanha|Portugal|Irlanda|Suíça|Reino Unido|Estados Unidos|Canadá|Áustria|Suécia|Noruega|Dinamarca|Austrália|Nova Zelândia|Japão|China|Emirados Árabes Unidos|Brasil|África do Sul|Outro país',
+ it:'Belgio|Francia|Paesi Bassi|Germania|Lussemburgo|Italia|Spagna|Portogallo|Irlanda|Svizzera|Regno Unito|Stati Uniti|Canada|Austria|Svezia|Norvegia|Danimarca|Australia|Nuova Zelanda|Giappone|Cina|Emirati Arabi Uniti|Brasile|Sudafrica|Altro paese',
+ ru:'Бельгия|Франция|Нидерланды|Германия|Люксембург|Италия|Испания|Португалия|Ирландия|Швейцария|Великобритания|США|Канада|Австрия|Швеция|Норвегия|Дания|Австралия|Новая Зеландия|Япония|Китай|ОАЭ|Бразилия|ЮАР|Другая страна',
+ zh:'比利时|法国|荷兰|德国|卢森堡|意大利|西班牙|葡萄牙|爱尔兰|瑞士|英国|美国|加拿大|奥地利|瑞典|挪威|丹麦|澳大利亚|新西兰|日本|中国|阿联酋|巴西|南非|其他国家'};
+Object.keys(NMC).forEach(l=>NMC[l].split('|').forEach((n,i)=>{CO[CO_K[i]][l]=n}));
+Object.keys(NMR).forEach(l=>NMR[l].split('|').forEach((n,i)=>{RES[RES_K[i]][l]=n}));
+const rname=c=>(RES[c]||RES.FR)[lang];
+function defRes(){const v=store.get('sk_res',null);if(v&&RES[v])return v;try{const r=((navigator.language||'').split('-')[1]||'').toUpperCase();if(RES[r])return r}catch(e){}return 'FR'}
+const money=(n,c)=>new Intl.NumberFormat(LOC[lang],{style:'currency',currency:c,maximumFractionDigits:0}).format(n);
+function pmList(res){const r=RES[res]||RES.FR,l=[];r.loc.forEach(m=>l.push([m,m==='SEPA'?t('pm_sepa'):m]));l.push(['CARD',t('pm_card')],['WALLET',t('pm_wallet')],['MM',t('pm_mm')]);return l}
+const phoneOk=v=>String(v).replace(/[\s().-]/g,'').replace(/^\+/,'').length>=8&&/^[+\d\s().-]+$/.test(v);
+/* ---------- exemples ---------- */
+const SEED=[
+ {id:'maison-kasai',type:'reward',mode:'aon',title:'Maison Kasaï, première collection en wax upcyclé',by:'Grâce M.',city:'Ixelles',res:'BE',country:'CD',goal:12000,raised:7850,backers:96,days:18,pal:['#0F4A38','#E9A820','#B8325A'],motif:0,
+  summary:'Un atelier bruxellois qui transforme des chutes de wax en vestes et sacs, cousus avec des couturières de Kinshasa et de Bruxelles.',
+  story:['Depuis trois ans, nous récupérons les chutes de wax des ateliers de Matongé pour en faire des pièces uniques. La collection est prête dans nos cahiers, il manque la matière première et deux machines.','Le financement sert à acheter le tissu en gros, payer deux couturières à temps plein pendant six mois et produire la première série de 150 pièces.'],
+  rewards:[{amt:15,name:'Pochette wax',desc:'Une pochette numérotée, expédiée en Belgique et en France.'},{amt:60,name:'Veste réversible',desc:'Votre taille, votre motif, livrée en mars.'},{amt:250,name:'Atelier couture',desc:'Une demi-journée d’atelier à Ixelles pour 4 personnes.'}],
+  i18n:{en:{title:'Maison Kasaï, a first collection in upcycled wax',summary:'A Brussels workshop turning wax fabric offcuts into jackets and bags, sewn with seamstresses in Kinshasa and Brussels.',story:['For three years we have been collecting wax offcuts from Matongé workshops to make one-of-a-kind pieces. The collection is ready on paper; we need fabric and two machines.','The funds buy fabric in bulk, pay two seamstresses full time for six months and produce a first run of 150 pieces.'],rewards:[{name:'Wax pouch',desc:'A numbered pouch, shipped in Belgium and France.'},{name:'Reversible jacket',desc:'Your size, your pattern, delivered in March.'},{name:'Sewing workshop',desc:'A half-day workshop in Ixelles for 4 people.'}]},
+   nl:{title:'Maison Kasaï, een eerste collectie in upcycled wax',summary:'Een Brussels atelier dat restanten wax omzet in jassen en tassen, genaaid met naaisters in Kinshasa en Brussel.',story:['Al drie jaar verzamelen we restanten wax uit ateliers in Matonge om unieke stukken te maken. De collectie staat op papier; er ontbreken stof en twee machines.','De middelen dienen om stof in bulk te kopen, twee naaisters zes maanden voltijds te betalen en een eerste reeks van 150 stuks te maken.'],rewards:[{name:'Waxtasje',desc:'Een genummerd tasje, verzonden in België en Frankrijk.'},{name:'Omkeerbaar jasje',desc:'Uw maat, uw patroon, geleverd in maart.'},{name:'Naaiatelier',desc:'Een halve dag atelier in Elsene voor 4 personen.'}]}}},
+ {id:'forage-bafang',type:'solidaire',title:'Un forage d’eau pour le quartier de Bafang',by:'Association Ndé-Toronto',city:'Toronto',res:'CA',country:'CM',goal:8000,raised:5120,backers:143,days:26,pal:['#12495C','#7FD1E0','#E9A820'],motif:1,
+  summary:'Les familles du quartier marchent 40 minutes pour puiser de l’eau. Un forage avec pompe manuelle change le quotidien de 600 personnes.',
+  story:['Le comité de quartier a déjà obtenu l’accord du chef de village et du terrain. Le devis du forage, de la pompe et de la margelle est établi par une entreprise locale.','Chaque mois, nous publierons une photo datée de l’avancement des travaux et la facture réglée.'],presets:[10,25,50,100],
+  i18n:{en:{title:'A water well for the Bafang neighbourhood',summary:'Families walk 40 minutes to fetch water. A well with a hand pump changes daily life for 600 people.',story:['The neighbourhood committee already has the village chief’s approval and the land. A local company has drawn up the quote for the drilling, the pump and the well head.','Every month we will publish a dated photo of progress and the paid invoice.']},
+   nl:{title:'Een waterput voor de wijk Bafang',summary:'Gezinnen lopen 40 minuten om water te halen. Een put met handpomp verandert het dagelijks leven van 600 mensen.',story:['Het wijkcomité heeft al de goedkeuring van het dorpshoofd en het terrein. Een lokaal bedrijf stelde de offerte op voor de boring, de pomp en de putrand.','Elke maand publiceren we een gedateerde foto van de vordering en de betaalde factuur.']}}},
+ {id:'kora-brussels',type:'reward',mode:'aon',title:'Kora Brussels, l’album « Nuits du Sahel »',by:'Orchestre Kora Brussels',city:'Saint-Gilles',res:'BE',country:'ML',goal:9000,raised:9650,backers:211,days:0,pal:['#3B1F5C','#E9A820','#F0F0E8'],motif:2,
+  summary:'Neuf morceaux enregistrés en live entre Bamako et Bruxelles, mêlant kora, balafon et basse.',
+  story:['L’album est enregistré. Les fonds ont couvert le mixage, le pressage vinyle et le premier concert à Flagey.','Merci aux 211 personnes qui ont rendu cela possible.'],
+  rewards:[{amt:12,name:'Album numérique',desc:'Téléchargement dès la sortie.'},{amt:35,name:'Vinyle',desc:'Édition limitée, pochette illustrée.'}],
+  i18n:{en:{title:'Kora Brussels, the album “Sahel Nights”',summary:'Nine tracks recorded live between Bamako and Brussels, blending kora, balafon and bass.',story:['The album is recorded. The funds covered mixing, vinyl pressing and the first concert at Flagey.','Thank you to the 211 people who made this possible.'],rewards:[{name:'Digital album',desc:'Download on release day.'},{name:'Vinyl',desc:'Limited edition, illustrated sleeve.'}]},
+   nl:{title:'Kora Brussels, het album “Sahelnachten”',summary:'Negen nummers live opgenomen tussen Bamako en Brussel, met kora, balafon en bas.',story:['Het album is opgenomen. De middelen dekten de mix, de vinylpersing en het eerste concert in Flagey.','Dank aan de 211 mensen die dit mogelijk maakten.'],rewards:[{name:'Digitaal album',desc:'Download op de releasedag.'},{name:'Vinyl',desc:'Beperkte oplage, geïllustreerde hoes.'}]}}},
+ {id:'papa-ibrahima',type:'solidaire',title:'Ramener Papa Ibrahima chez lui, à Saint-Louis',by:'Famille Diallo',city:'Montreuil',res:'FR',country:'SN',goal:6500,raised:6120,backers:187,days:3,pal:['#4A3B2A','#C9B28A','#B8325A'],motif:3,
+  summary:'Notre père est décédé à Paris. Nous voulons l’enterrer auprès des siens, au Sénégal. Il reste quelques jours.',
+  story:['Le devis des pompes funèbres et du transport est de 6 500 €. Les fonds servent uniquement à cela.','Les frais non utilisés seront reversés à l’association du quartier qui nous a accompagnés.'],presets:[10,20,50],
+  i18n:{en:{title:'Bringing Papa Ibrahima home to Saint-Louis',summary:'Our father passed away in Paris. We want to bury him among his own in Senegal. Only a few days remain.',story:['The quote from the funeral directors and for transport is €6,500. The funds are used only for this.','Any unused funds will go to the neighbourhood association that supported us.']},
+   nl:{title:'Papa Ibrahima naar huis brengen, in Saint-Louis',summary:'Onze vader is overleden in Parijs. We willen hem begraven bij zijn familie in Senegal. Er rest nog maar enkele dagen.',story:['De offerte van de begrafenisondernemer en voor het transport bedraagt € 6.500. De middelen worden enkel daarvoor gebruikt.','Ongebruikte middelen gaan naar de buurtvereniging die ons heeft bijgestaan.']}}},
+ {id:'cacao-abidjan',type:'reward',mode:'flex',title:'Chocolaterie « Cacao d’Abidjan » à Bruxelles',by:'Awa K.',city:'Schaerbeek',res:'BE',country:'CI',goal:15000,raised:4300,backers:58,days:34,pal:['#5B2A1A','#E9A820','#0F4A38'],motif:1,
+  summary:'Du chocolat fabriqué à partir de fèves payées au juste prix aux coopératives ivoiriennes, transformé et vendu à Bruxelles.',
+  story:['Nous importons déjà des fèves en petite quantité. Le financement permet d’acheter un conche et un tempéreur professionnels et d’obtenir l’agrément AFSCA.','Ce projet est en financement flexible : nous gardons ce qui est collecté, même si l’objectif n’est pas atteint.'],
+  rewards:[{amt:9,name:'Tablette 70 %',desc:'Une tablette signée de la première fournée.'},{amt:40,name:'Coffret dégustation',desc:'6 tablettes, notes de dégustation.'},{amt:120,name:'Visite de l’atelier',desc:'Dégustation privée pour 2 personnes.'}],
+  i18n:{en:{title:'“Cacao d’Abidjan” chocolate maker in Brussels',summary:'Chocolate made from beans bought at a fair price from Ivorian cooperatives, processed and sold in Brussels.',story:['We already import beans in small quantities. The funding buys a professional conche and tempering machine and covers FASFC approval.','This project uses flexible funding: we keep what is raised, even if the goal is not reached.'],rewards:[{name:'70% bar',desc:'A bar signed from the first batch.'},{name:'Tasting box',desc:'6 bars with tasting notes.'},{name:'Workshop visit',desc:'Private tasting for 2 people.'}]},
+   nl:{title:'Chocolaterie “Cacao d’Abidjan” in Brussel',summary:'Chocolade gemaakt van bonen die tegen een eerlijke prijs bij Ivoriaanse coöperaties zijn gekocht, in Brussel verwerkt en verkocht.',story:['We importeren al bonen in kleine hoeveelheden. De financiering dekt een professionele conche en temperatiemachine en de erkenning van het FAVV.','Dit project gebruikt flexibele financiering: we houden wat is ingezameld, ook als het doel niet wordt gehaald.'],rewards:[{name:'Reep 70 %',desc:'Een gesigneerde reep van de eerste productie.'},{name:'Proefdoos',desc:'6 repen met proefnotities.'},{name:'Bezoek aan het atelier',desc:'Privéproeverij voor 2 personen.'}]}}},
+ {id:'bourses-kigali',type:'solidaire',title:'20 bourses scolaires pour des filles de Kigali',by:'Girls’ Futures UK',city:'London',res:'GB',country:'RW',goal:5000,raised:1900,backers:41,days:40,pal:['#1D5B3A','#F2D06B','#B8325A'],motif:2,
+  summary:'Une année de scolarité, l’uniforme et le matériel pour 20 filles qui risquent d’arrêter l’école.',
+  story:['Chaque bourse couvre 250 € : frais de scolarité, uniforme et fournitures. Le suivi est assuré par une enseignante de l’école partenaire.'],presets:[10,25,50,250],
+  i18n:{en:{title:'20 school scholarships for girls in Kigali',summary:'A year of schooling, uniform and supplies for 20 girls at risk of dropping out.',story:['Each scholarship covers €250: school fees, uniform and supplies. A teacher at the partner school follows each girl.']},
+   nl:{title:'20 schoolbeurzen voor meisjes in Kigali',summary:'Een schooljaar, uniform en materiaal voor 20 meisjes die dreigen af te haken.',story:['Elke beurs dekt € 250: schoolgeld, uniform en benodigdheden. Een lerares van de partnerschool volgt elk meisje op.']}}},
+ {id:'enfants-matonge',type:'reward',mode:'aon',title:'« Les enfants de Matongé », documentaire',by:'Collectif Yala',city:'Ixelles',res:'BE',country:'CD',goal:20000,raised:11200,backers:133,days:22,pal:['#162B4A','#E9A820','#D9483B'],motif:0,
+  summary:'Un film sur la deuxième génération du quartier congolais de Bruxelles, racontée par celles et ceux qui y ont grandi.',
+  story:['Quarante heures de tournage sont déjà dans la boîte. Les fonds financent le montage, l’étalonnage, les droits musicaux et une première projection publique.'],
+  rewards:[{amt:10,name:'Votre nom au générique',desc:'Dans la section « Merci ».'},{amt:30,name:'Place de première',desc:'Avant-première à Bruxelles + discussion.'},{amt:150,name:'Coproducteur·rice',desc:'Générique, DVD et rencontre avec l’équipe.'}],
+  i18n:{en:{title:'“The Children of Matongé”, a documentary',summary:'A film about the second generation of Brussels’ Congolese quarter, told by those who grew up there.',story:['Forty hours of footage are already shot. The funds pay for editing, colour grading, music rights and a first public screening.'],rewards:[{name:'Your name in the credits',desc:'In the “Thank you” section.'},{name:'Premiere ticket',desc:'Preview in Brussels plus a discussion.'},{name:'Co-producer',desc:'Credits, DVD and a meeting with the team.'}]},
+   nl:{title:'“De kinderen van Matonge”, een documentaire',summary:'Een film over de tweede generatie van de Congolese wijk in Brussel, verteld door wie er opgroeide.',story:['Veertig uur beeldmateriaal is al opgenomen. De middelen betalen montage, kleurcorrectie, muziekrechten en een eerste openbare vertoning.'],rewards:[{name:'Uw naam in de aftiteling',desc:'In de rubriek “Dank”.'},{name:'Ticket voor de première',desc:'Voorpremière in Brussel met nabespreking.'},{name:'Coproducent',desc:'Aftiteling, dvd en ontmoeting met het team.'}]}}},
+ {id:'ecole-cotonou',type:'solidaire',title:'Reconstruire l’école de Godomey après les inondations',by:'Les Amis de Godomey',city:'Genève',res:'CH',country:'BJ',goal:10000,raised:3400,backers:77,days:29,pal:['#1B3A5C','#7FD1E0','#E9A820'],motif:3,
+  summary:'Trois salles de classe ont été détruites. 180 enfants étudient aujourd’hui sous des bâches.',
+  story:['Les travaux sont confiés à un maçon du quartier et suivis par le comité de parents. Chaque étape sera documentée en photos.'],presets:[10,25,50,100],
+  i18n:{en:{title:'Rebuilding the Godomey school after the floods',summary:'Three classrooms were destroyed. 180 children now study under tarpaulins.',story:['The works are entrusted to a local mason and overseen by the parents’ committee. Each stage will be documented with photos.']},
+   nl:{title:'De school van Godomey heropbouwen na de overstromingen',summary:'Drie klaslokalen werden vernield. 180 kinderen leren nu onder zeildoeken.',story:['De werken worden toevertrouwd aan een lokale metser en opgevolgd door het oudercomité. Elke fase wordt met foto’s gedocumenteerd.']}}},
+ {id:'sante-kumasi',type:'solidaire',title:'Une ambulance pour le centre de santé de Kumasi',by:'Ghanaian Health Alliance',city:'Houston',res:'US',country:'GH',goal:14000,raised:8650,backers:162,days:21,pal:['#7A1F2B','#F2D06B','#0F4A38'],motif:2,
+  summary:'Le centre de santé le plus proche est à 35 km. Une ambulance équipée sauverait des vies pendant la saison des pluies.',
+  story:['Un collectif de médecins ghanéens de Houston a réuni le devis d’un véhicule d’occasion révisé et de son équipement de base.','Le centre s’engage à publier chaque trimestre le nombre de transports effectués.'],presets:[10,25,50,100],
+  i18n:{en:{title:'An ambulance for the Kumasi health centre',summary:'The nearest clinic is 35 km away. An equipped ambulance would save lives during the rainy season.',story:['A group of Ghanaian doctors in Houston has gathered the quote for a refurbished used vehicle and its basic equipment.','The health centre commits to publishing the number of transfers carried out every quarter.']},
+   nl:{title:'Een ambulance voor het gezondheidscentrum van Kumasi',summary:'De dichtstbijzijnde kliniek ligt 35 km verderop. Een uitgeruste ambulance redt levens tijdens het regenseizoen.',story:['Een groep Ghanese artsen in Houston heeft de offerte verzameld voor een nagekeken tweedehandsvoertuig en de basisuitrusting.','Het gezondheidscentrum verbindt zich ertoe elk kwartaal het aantal uitgevoerde transporten te publiceren.']}}}
+];
+const SEED_TR={
+'maison-kasai':{
+ de:{title:'Maison Kasaï, die erste Kollektion aus Upcycling-Wax',summary:'Ein Brüsseler Atelier, das Wax-Stoffreste zu Jacken und Taschen verarbeitet, genäht mit Näherinnen in Kinshasa und Brüssel.',story:['Seit drei Jahren sammeln wir Wax-Reste aus den Werkstätten von Matongé und machen daraus Unikate. Die Kollektion steht auf dem Papier; es fehlen Stoff und zwei Maschinen.','Mit den Mitteln kaufen wir Stoff im Großen, bezahlen sechs Monate lang zwei Näherinnen in Vollzeit und fertigen die erste Serie von 150 Stücken.'],rewards:[{name:'Wax-Täschchen',desc:'Ein nummeriertes Täschchen, Versand in Belgien und Frankreich.'},{name:'Wendejacke',desc:'Ihre Größe, Ihr Muster, Lieferung im März.'},{name:'Nähatelier',desc:'Ein halber Tag Atelier in Ixelles für 4 Personen.'}]},
+ es:{title:'Maison Kasaï, una primera colección en wax reciclado',summary:'Un taller bruselense que convierte retales de wax en chaquetas y bolsos, cosidos con costureras de Kinshasa y Bruselas.',story:['Desde hace tres años recogemos retales de wax de los talleres de Matongé para crear piezas únicas. La colección está lista en nuestros cuadernos; faltan la tela y dos máquinas.','Los fondos sirven para comprar tela al por mayor, pagar a dos costureras a tiempo completo durante seis meses y producir la primera serie de 150 piezas.'],rewards:[{name:'Bolsito wax',desc:'Un bolsito numerado, enviado a Bélgica y Francia.'},{name:'Chaqueta reversible',desc:'Tu talla, tu estampado, entregada en marzo.'},{name:'Taller de costura',desc:'Medio día de taller en Ixelles para 4 personas.'}]},
+ pt:{title:'Maison Kasaï, uma primeira coleção em wax reciclado',summary:'Um atelier de Bruxelas que transforma sobras de wax em casacos e malas, cosidos com costureiras de Kinshasa e de Bruxelas.',story:['Há três anos recolhemos sobras de wax nos ateliers de Matongé para criar peças únicas. A coleção está pronta nos nossos cadernos; falta o tecido e duas máquinas.','Os fundos servem para comprar tecido por atacado, pagar a duas costureiras a tempo inteiro durante seis meses e produzir a primeira série de 150 peças.'],rewards:[{name:'Bolsinha wax',desc:'Uma bolsinha numerada, enviada para a Bélgica e a França.'},{name:'Casaco reversível',desc:'O seu tamanho, o seu padrão, entregue em março.'},{name:'Oficina de costura',desc:'Meio dia de oficina em Ixelles para 4 pessoas.'}]},
+ it:{title:'Maison Kasaï, la prima collezione in wax riciclato',summary:'Un laboratorio di Bruxelles che trasforma gli scarti di wax in giacche e borse, cucite con sarte di Kinshasa e di Bruxelles.',story:['Da tre anni raccogliamo gli scarti di wax dei laboratori di Matongé per creare capi unici. La collezione è pronta sulla carta; mancano la stoffa e due macchine.','I fondi servono ad acquistare la stoffa all’ingrosso, pagare due sarte a tempo pieno per sei mesi e produrre la prima serie di 150 capi.'],rewards:[{name:'Pochette wax',desc:'Una pochette numerata, spedita in Belgio e in Francia.'},{name:'Giacca double-face',desc:'La tua taglia, la tua fantasia, consegnata a marzo.'},{name:'Laboratorio di cucito',desc:'Mezza giornata di laboratorio a Ixelles per 4 persone.'}]},
+ ru:{title:'Maison Kasaï: первая коллекция из переработанного вакс-текстиля',summary:'Брюссельская мастерская, которая превращает обрезки вакса в куртки и сумки; шьют их портнихи из Киншасы и Брюсселя.',story:['Три года мы собираем обрезки вакса в мастерских Матонге и делаем из них уникальные вещи. Коллекция готова на бумаге, не хватает ткани и двух машин.','Средства пойдут на оптовую закупку ткани, оплату работы двух портних на полный день в течение шести месяцев и выпуск первой серии из 150 изделий.'],rewards:[{name:'Косметичка из вакса',desc:'Нумерованная косметичка, отправка по Бельгии и Франции.'},{name:'Двусторонняя куртка',desc:'Ваш размер, ваш узор, доставка в марте.'},{name:'Швейный мастер-класс',desc:'Полдня в мастерской в Икселе на 4 человека.'}]},
+ zh:{title:'Maison Kasaï：首个再生蜡染面料系列',summary:'一家布鲁塞尔工坊，把蜡染布边角料做成外套和包，由金沙萨与布鲁塞尔的缝纫师共同缝制。',story:['三年来，我们收集马通盖各工坊的蜡染边角料，制作独一无二的作品。系列设计已经完成，缺的是面料和两台缝纫机。','筹款将用于批量采购面料、全职雇用两位缝纫师六个月，并生产首批 150 件作品。'],rewards:[{name:'蜡染小包',desc:'编号小包，寄送比利时和法国。'},{name:'双面外套',desc:'您的尺码、您的图案，三月交付。'},{name:'缝纫工作坊',desc:'在伊克塞尔的半天工作坊，可供 4 人参加。'}]}
+},
+'forage-bafang':{
+ de:{title:'Ein Brunnen für die Wohngegend Bafang',summary:'Familien laufen 40 Minuten, um Wasser zu holen. Ein Brunnen mit Handpumpe verändert den Alltag von 600 Menschen.',story:['Das Stadtteilkomitee hat bereits die Zustimmung des Dorfchefs und das Grundstück. Ein lokales Unternehmen hat den Kostenvoranschlag für Bohrung, Pumpe und Brunneneinfassung erstellt.','Jeden Monat veröffentlichen wir ein datiertes Foto vom Baufortschritt und die bezahlte Rechnung.']},
+ es:{title:'Un pozo de agua para el barrio de Bafang',summary:'Las familias caminan 40 minutos para buscar agua. Un pozo con bomba manual cambia la vida diaria de 600 personas.',story:['El comité del barrio ya cuenta con la autorización del jefe del pueblo y con el terreno. Una empresa local ha elaborado el presupuesto de la perforación, la bomba y el brocal.','Cada mes publicaremos una foto fechada del avance de las obras y la factura pagada.']},
+ pt:{title:'Um poço de água para o bairro de Bafang',summary:'As famílias caminham 40 minutos para ir buscar água. Um poço com bomba manual muda o dia a dia de 600 pessoas.',story:['O comité do bairro já tem a autorização do chefe da aldeia e o terreno. Uma empresa local elaborou o orçamento da perfuração, da bomba e do muro do poço.','Todos os meses publicaremos uma foto datada do andamento das obras e a fatura paga.']},
+ it:{title:'Un pozzo d’acqua per il quartiere di Bafang',summary:'Le famiglie camminano 40 minuti per prendere l’acqua. Un pozzo con pompa manuale cambia la vita quotidiana di 600 persone.',story:['Il comitato di quartiere ha già ottenuto il consenso del capo villaggio e il terreno. Un’impresa locale ha redatto il preventivo per la perforazione, la pompa e il bordo del pozzo.','Ogni mese pubblicheremo una foto datata dell’avanzamento dei lavori e la fattura pagata.']},
+ ru:{title:'Колодец с питьевой водой для района Бафанг',summary:'Семьи идут за водой по 40 минут. Колодец с ручным насосом изменит повседневную жизнь 600 человек.',story:['Районный комитет уже получил согласие деревенского старосты и участок. Местная компания составила смету на бурение, насос и оголовок колодца.','Каждый месяц мы будем публиковать фото с датой, показывающее ход работ, и оплаченный счёт.']},
+ zh:{title:'为巴凡社区打一口水井',summary:'这里的家庭要走 40 分钟才能取到水。一口带手动泵的水井将改变 600 人的日常生活。',story:['社区委员会已经获得村长同意，并有了土地。当地一家公司已出具钻井、水泵和井台的报价单。','我们每月都会公布标注日期的施工进度照片和已付款发票。']}
+},
+'kora-brussels':{
+ de:{title:'Kora Brussels, das Album „Nächte der Sahelzone“',summary:'Neun live aufgenommene Stücke zwischen Bamako und Brüssel, mit Kora, Balafon und Bass.',story:['Das Album ist aufgenommen. Die Mittel deckten Mix, Vinylpressung und das erste Konzert in Flagey.','Danke an die 211 Menschen, die das möglich gemacht haben.'],rewards:[{name:'Digitales Album',desc:'Download am Erscheinungstag.'},{name:'Vinyl',desc:'Limitierte Auflage, illustrierte Hülle.'}]},
+ es:{title:'Kora Brussels, el álbum «Noches del Sahel»',summary:'Nueve temas grabados en directo entre Bamako y Bruselas, que mezclan kora, balafón y bajo.',story:['El álbum está grabado. Los fondos cubrieron la mezcla, el prensado en vinilo y el primer concierto en Flagey.','Gracias a las 211 personas que lo hicieron posible.'],rewards:[{name:'Álbum digital',desc:'Descarga el día del lanzamiento.'},{name:'Vinilo',desc:'Edición limitada, portada ilustrada.'}]},
+ pt:{title:'Kora Brussels, o álbum «Noites do Sael»',summary:'Nove temas gravados ao vivo entre Bamaco e Bruxelas, misturando kora, balafon e baixo.',story:['O álbum está gravado. Os fundos cobriram a mistura, a prensagem em vinil e o primeiro concerto no Flagey.','Obrigado às 211 pessoas que tornaram isto possível.'],rewards:[{name:'Álbum digital',desc:'Download no dia do lançamento.'},{name:'Vinil',desc:'Edição limitada, capa ilustrada.'}]},
+ it:{title:'Kora Brussels, l’album «Notti del Sahel»',summary:'Nove brani registrati dal vivo tra Bamako e Bruxelles, che uniscono kora, balafon e basso.',story:['L’album è registrato. I fondi hanno coperto il missaggio, la stampa in vinile e il primo concerto al Flagey.','Grazie alle 211 persone che l’hanno reso possibile.'],rewards:[{name:'Album digitale',desc:'Download dal giorno dell’uscita.'},{name:'Vinile',desc:'Edizione limitata, copertina illustrata.'}]},
+ ru:{title:'Kora Brussels: альбом «Ночи Сахеля»',summary:'Девять композиций, записанных вживую между Бамако и Брюсселем, с корой, балафоном и басом.',story:['Альбом записан. Собранные средства покрыли сведение, выпуск винила и первый концерт в Flagey.','Спасибо 211 людям, которые сделали это возможным.'],rewards:[{name:'Цифровой альбом',desc:'Скачивание в день выхода.'},{name:'Виниловая пластинка',desc:'Ограниченный тираж, иллюстрированная обложка.'}]},
+ zh:{title:'Kora Brussels：专辑《萨赫勒之夜》',summary:'九首在巴马科与布鲁塞尔之间现场录制的曲目，融合科拉琴、巴拉丰木琴和贝斯。',story:['专辑已录制完成。筹得的款项用于混音、黑胶压制和在 Flagey 的首场演出。','感谢让这一切成真的 211 位支持者。'],rewards:[{name:'数字专辑',desc:'发行当天即可下载。'},{name:'黑胶唱片',desc:'限量版，插画封套。'}]}
+},
+'papa-ibrahima':{
+ de:{title:'Papa Ibrahima nach Hause bringen, nach Saint-Louis',summary:'Unser Vater ist in Paris gestorben. Wir möchten ihn im Senegal bei den Seinen beisetzen. Es bleiben nur noch wenige Tage.',story:['Der Kostenvoranschlag des Bestattungsunternehmens und für den Transport beträgt 6.500 €. Die Mittel werden nur dafür verwendet.','Nicht verwendete Mittel gehen an den Stadtteilverein, der uns beigestanden hat.']},
+ es:{title:'Llevar a Papá Ibrahima a casa, a Saint-Louis',summary:'Nuestro padre falleció en París. Queremos enterrarlo junto a los suyos, en Senegal. Quedan pocos días.',story:['El presupuesto de la funeraria y del transporte es de 6 500 €. Los fondos se destinan únicamente a eso.','Los fondos no utilizados se entregarán a la asociación del barrio que nos ha acompañado.']},
+ pt:{title:'Levar o Papá Ibrahima para casa, em Saint-Louis',summary:'O nosso pai faleceu em Paris. Queremos enterrá-lo junto dos seus, no Senegal. Restam poucos dias.',story:['O orçamento da agência funerária e do transporte é de 6 500 €. Os fundos destinam-se apenas a isso.','Os fundos não utilizados serão entregues à associação do bairro que nos acompanhou.']},
+ it:{title:'Riportare Papà Ibrahima a casa, a Saint-Louis',summary:'Nostro padre è morto a Parigi. Vogliamo seppellirlo accanto ai suoi, in Senegal. Mancano pochi giorni.',story:['Il preventivo dell’impresa funebre e del trasporto è di 6.500 €. I fondi servono solo a questo.','I fondi non utilizzati andranno all’associazione del quartiere che ci è stata vicina.']},
+ ru:{title:'Вернуть папу Ибрахиму домой, в Сен-Луи',summary:'Наш отец умер в Париже. Мы хотим похоронить его рядом с родными в Сенегале. Осталось несколько дней.',story:['Смета ритуальной службы и перевозки составляет 6 500 €. Средства пойдут только на это.','Неиспользованные средства будут переданы районной ассоциации, которая нас поддержала.']},
+ zh:{title:'送伊卜拉希马爸爸回家，回到圣路易',summary:'我们的父亲在巴黎去世。我们想把他安葬在塞内加尔亲人身边。只剩几天了。',story:['殡葬服务和运输的报价为 6 500 €，筹款只用于此。','未使用的款项将转交给曾经陪伴我们的社区协会。']}
+},
+'cacao-abidjan':{
+ de:{title:'Schokoladenmanufaktur „Cacao d’Abidjan“ in Brüssel',summary:'Schokolade aus Bohnen, die ivorischen Kooperativen zu einem fairen Preis abgekauft, in Brüssel verarbeitet und verkauft werden.',story:['Wir importieren bereits kleine Mengen Bohnen. Die Finanzierung ermöglicht eine professionelle Conche und eine Temperiermaschine sowie die Zulassung durch die belgische Lebensmittelbehörde.','Dieses Projekt nutzt flexible Finanzierung: Wir behalten, was gesammelt wird, auch wenn das Ziel nicht erreicht wird.'],rewards:[{name:'Tafel 70 %',desc:'Eine signierte Tafel aus der ersten Charge.'},{name:'Probierbox',desc:'6 Tafeln mit Verkostungsnotizen.'},{name:'Besuch der Manufaktur',desc:'Private Verkostung für 2 Personen.'}]},
+ es:{title:'Chocolatería «Cacao d’Abidjan» en Bruselas',summary:'Chocolate elaborado con granos pagados a precio justo a cooperativas marfileñas, transformado y vendido en Bruselas.',story:['Ya importamos granos en pequeñas cantidades. La financiación permite comprar una conchadora y una temperadora profesionales y obtener la autorización de la agencia alimentaria belga.','Este proyecto tiene financiación flexible: nos quedamos con lo recaudado aunque no se alcance el objetivo.'],rewards:[{name:'Tableta 70 %',desc:'Una tableta firmada de la primera hornada.'},{name:'Caja de degustación',desc:'6 tabletas con notas de cata.'},{name:'Visita al taller',desc:'Degustación privada para 2 personas.'}]},
+ pt:{title:'Chocolataria «Cacao d’Abidjan» em Bruxelas',summary:'Chocolate feito com cacau pago a preço justo a cooperativas marfinenses, transformado e vendido em Bruxelas.',story:['Já importamos cacau em pequenas quantidades. O financiamento permite comprar uma conchadora e uma temperadora profissionais e obter a licença da agência alimentar belga.','Este projeto tem financiamento flexível: ficamos com o que for angariado, mesmo que o objetivo não seja atingido.'],rewards:[{name:'Tablete 70 %',desc:'Um tablete assinado da primeira fornada.'},{name:'Caixa de degustação',desc:'6 tabletes com notas de prova.'},{name:'Visita à oficina',desc:'Degustação privada para 2 pessoas.'}]},
+ it:{title:'Cioccolateria «Cacao d’Abidjan» a Bruxelles',summary:'Cioccolato prodotto con fave pagate a prezzo equo alle cooperative ivoriane, lavorato e venduto a Bruxelles.',story:['Importiamo già fave in piccole quantità. Il finanziamento permette di acquistare una conca e una temperatrice professionali e di ottenere l’autorizzazione dell’agenzia alimentare belga.','Questo progetto ha un finanziamento flessibile: teniamo quanto raccolto, anche se l’obiettivo non viene raggiunto.'],rewards:[{name:'Tavoletta 70%',desc:'Una tavoletta firmata della prima infornata.'},{name:'Cofanetto degustazione',desc:'6 tavolette con note di degustazione.'},{name:'Visita al laboratorio',desc:'Degustazione privata per 2 persone.'}]},
+ ru:{title:'Шоколадная мастерская «Cacao d’Abidjan» в Брюсселе',summary:'Шоколад из бобов, закупаемых по справедливой цене у кооперативов Кот-д’Ивуара, который производят и продают в Брюсселе.',story:['Мы уже ввозим бобы небольшими партиями. Финансирование позволит купить профессиональную коншу и темперирующую машину и получить разрешение бельгийского ведомства по безопасности пищевых продуктов.','Этот проект использует гибкое финансирование: мы оставляем собранное, даже если цель не достигнута.'],rewards:[{name:'Плитка 70 %',desc:'Подписанная плитка из первой партии.'},{name:'Дегустационный набор',desc:'6 плиток с заметками дегустатора.'},{name:'Визит в мастерскую',desc:'Закрытая дегустация на 2 человека.'}]},
+ zh:{title:'布鲁塞尔的“Cacao d’Abidjan”巧克力工坊',summary:'用以公平价格向科特迪瓦合作社采购的可可豆制作巧克力，在布鲁塞尔加工并销售。',story:['我们已经小批量进口可可豆。筹款将用于购买专业精磨机和调温机，并取得比利时食品安全部门的许可。','本项目采用灵活筹资：即使未达成目标，我们也保留已筹款项。'],rewards:[{name:'70% 巧克力排',desc:'首批生产中带签名的一块巧克力。'},{name:'品鉴礼盒',desc:'6 块巧克力，附品鉴笔记。'},{name:'参观工坊',desc:'为 2 人准备的私人品鉴。'}]}
+},
+'bourses-kigali':{
+ de:{title:'20 Schulstipendien für Mädchen in Kigali',summary:'Ein Schuljahr, Uniform und Material für 20 Mädchen, die Gefahr laufen, die Schule abzubrechen.',story:['Jedes Stipendium deckt 250 €: Schulgebühren, Uniform und Schulmaterial. Eine Lehrerin der Partnerschule begleitet jedes Mädchen.']},
+ es:{title:'20 becas escolares para niñas de Kigali',summary:'Un año de escolaridad, uniforme y material para 20 niñas que corren el riesgo de abandonar la escuela.',story:['Cada beca cubre 250 €: matrícula, uniforme y material escolar. Una maestra de la escuela asociada hace el seguimiento de cada niña.']},
+ pt:{title:'20 bolsas escolares para raparigas de Kigali',summary:'Um ano de escolaridade, uniforme e material para 20 raparigas em risco de abandonar a escola.',story:['Cada bolsa cobre 250 €: propinas, uniforme e material escolar. Uma professora da escola parceira acompanha cada rapariga.']},
+ it:{title:'20 borse di studio per ragazze di Kigali',summary:'Un anno di scuola, la divisa e il materiale per 20 ragazze che rischiano di abbandonare gli studi.',story:['Ogni borsa copre 250 €: rette scolastiche, divisa e materiale. Un’insegnante della scuola partner segue ciascuna ragazza.']},
+ ru:{title:'20 стипендий для девочек из Кигали',summary:'Год обучения, форма и школьные принадлежности для 20 девочек, которым грозит отчисление.',story:['Каждая стипендия покрывает 250 €: оплату обучения, форму и школьные принадлежности. За каждой девочкой наблюдает учительница из школы-партнёра.']},
+ zh:{title:'为基加利的 20 名女孩提供助学金',summary:'为 20 名面临辍学风险的女孩提供一年的学费、校服和学习用品。',story:['每份助学金为 250 €，涵盖学费、校服和学习用品。合作学校的一位老师会跟进每一位女孩。']}
+},
+'enfants-matonge':{
+ de:{title:'„Die Kinder von Matongé“, ein Dokumentarfilm',summary:'Ein Film über die zweite Generation im kongolesischen Viertel von Brüssel, erzählt von denen, die dort aufgewachsen sind.',story:['Vierzig Stunden Drehmaterial sind bereits im Kasten. Die Mittel finanzieren Schnitt, Farbkorrektur, Musikrechte und eine erste öffentliche Vorführung.'],rewards:[{name:'Ihr Name im Abspann',desc:'In der Rubrik „Danke“.'},{name:'Premierenticket',desc:'Vorpremiere in Brüssel mit Gespräch.'},{name:'Koproduzent·in',desc:'Abspann, DVD und Treffen mit dem Team.'}]},
+ es:{title:'«Los niños de Matongé», un documental',summary:'Una película sobre la segunda generación del barrio congoleño de Bruselas, contada por quienes crecieron allí.',story:['Ya hay cuarenta horas de rodaje en el disco duro. Los fondos financian el montaje, la corrección de color, los derechos musicales y un primer pase público.'],rewards:[{name:'Tu nombre en los créditos',desc:'En la sección «Gracias».'},{name:'Entrada de estreno',desc:'Preestreno en Bruselas y coloquio.'},{name:'Coproductor/a',desc:'Créditos, DVD y encuentro con el equipo.'}]},
+ pt:{title:'«As crianças de Matongé», um documentário',summary:'Um filme sobre a segunda geração do bairro congolês de Bruxelas, contado por quem cresceu lá.',story:['Já há quarenta horas de filmagens gravadas. Os fundos financiam a montagem, a correção de cor, os direitos musicais e uma primeira exibição pública.'],rewards:[{name:'O seu nome nos créditos',desc:'Na secção «Obrigado».'},{name:'Bilhete de estreia',desc:'Antestreia em Bruxelas e conversa com a equipa.'},{name:'Coprodutor/a',desc:'Créditos, DVD e encontro com a equipa.'}]},
+ it:{title:'«I bambini di Matongé», un documentario',summary:'Un film sulla seconda generazione del quartiere congolese di Bruxelles, raccontata da chi vi è cresciuto.',story:['Quaranta ore di riprese sono già pronte. I fondi finanziano il montaggio, la color correction, i diritti musicali e una prima proiezione pubblica.'],rewards:[{name:'Il tuo nome nei titoli di coda',desc:'Nella sezione «Grazie».'},{name:'Biglietto per la prima',desc:'Anteprima a Bruxelles con dibattito.'},{name:'Coproduttore/trice',desc:'Titoli di coda, DVD e incontro con la squadra.'}]},
+ ru:{title:'«Дети Матонге», документальный фильм',summary:'Фильм о втором поколении конголезского квартала Брюсселя, рассказанный теми, кто там вырос.',story:['Сорок часов съёмок уже готовы. Средства пойдут на монтаж, цветокоррекцию, музыкальные права и первый публичный показ.'],rewards:[{name:'Ваше имя в титрах',desc:'В разделе «Благодарности».'},{name:'Билет на премьеру',desc:'Предпоказ в Брюсселе и обсуждение.'},{name:'Сопродюсер',desc:'Титры, DVD и встреча с командой.'}]},
+ zh:{title:'纪录片《马通盖的孩子们》',summary:'一部关于布鲁塞尔刚果社区第二代的影片，由在那里长大的人亲口讲述。',story:['四十小时的素材已经拍完。筹款将用于剪辑、调色、音乐版权和首场公开放映。'],rewards:[{name:'您的名字列入片尾',desc:'在“致谢”部分。'},{name:'首映门票',desc:'在布鲁塞尔的提前放映，并有映后交流。'},{name:'联合制片人',desc:'片尾署名、DVD，并与团队见面。'}]}
+},
+'ecole-cotonou':{
+ de:{title:'Die Schule von Godomey nach der Flut wiederaufbauen',summary:'Drei Klassenräume wurden zerstört. 180 Kinder lernen heute unter Planen.',story:['Die Arbeiten werden einem Maurer aus dem Viertel übertragen und vom Elternkomitee begleitet. Jede Etappe wird mit Fotos dokumentiert.']},
+ es:{title:'Reconstruir la escuela de Godomey tras las inundaciones',summary:'Tres aulas quedaron destruidas. Hoy 180 niños estudian bajo lonas.',story:['Las obras se encargan a un albañil del barrio y las supervisa el comité de padres. Cada etapa se documentará con fotos.']},
+ pt:{title:'Reconstruir a escola de Godomey depois das inundações',summary:'Três salas de aula foram destruídas. Hoje, 180 crianças estudam debaixo de lonas.',story:['As obras são confiadas a um pedreiro do bairro e acompanhadas pelo comité de pais. Cada fase será documentada com fotografias.']},
+ it:{title:'Ricostruire la scuola di Godomey dopo le inondazioni',summary:'Tre aule sono state distrutte. Oggi 180 bambini studiano sotto i teloni.',story:['I lavori sono affidati a un muratore del quartiere e seguiti dal comitato dei genitori. Ogni fase sarà documentata con foto.']},
+ ru:{title:'Восстановить школу в Годомее после наводнения',summary:'Три класса разрушены. Сегодня 180 детей учатся под брезентом.',story:['Работы поручены местному каменщику, за ними следит родительский комитет. Каждый этап будет подтверждаться фотографиями.']},
+ zh:{title:'洪灾后重建戈多梅的学校',summary:'三间教室被毁。如今 180 名孩子在防水布下上课。',story:['工程交给本地的泥瓦匠，由家长委员会监督。每个阶段都会用照片记录。']}
+},
+'sante-kumasi':{
+ de:{title:'Ein Krankenwagen für das Gesundheitszentrum von Kumasi',summary:'Die nächste Klinik ist 35 km entfernt. Ein ausgestatteter Krankenwagen würde in der Regenzeit Leben retten.',story:['Eine Gruppe ghanaischer Ärztinnen und Ärzte in Houston hat den Kostenvoranschlag für ein überholtes Gebrauchtfahrzeug samt Grundausstattung eingeholt.','Das Gesundheitszentrum verpflichtet sich, jedes Quartal die Zahl der durchgeführten Transporte zu veröffentlichen.']},
+ es:{title:'Una ambulancia para el centro de salud de Kumasi',summary:'La clínica más cercana está a 35 km. Una ambulancia equipada salvaría vidas durante la temporada de lluvias.',story:['Un colectivo de médicos ghaneses de Houston ha reunido el presupuesto de un vehículo de segunda mano revisado y su equipamiento básico.','El centro de salud se compromete a publicar cada trimestre el número de traslados realizados.']},
+ pt:{title:'Uma ambulância para o centro de saúde de Kumasi',summary:'A clínica mais próxima fica a 35 km. Uma ambulância equipada salvaria vidas durante a época das chuvas.',story:['Um grupo de médicos ganeses em Houston reuniu o orçamento de um veículo usado revisto e do seu equipamento básico.','O centro de saúde compromete-se a publicar, todos os trimestres, o número de transportes realizados.']},
+ it:{title:'Un’ambulanza per il centro sanitario di Kumasi',summary:'La clinica più vicina dista 35 km. Un’ambulanza attrezzata salverebbe vite durante la stagione delle piogge.',story:['Un gruppo di medici ghanesi di Houston ha raccolto il preventivo per un veicolo usato revisionato e per la sua dotazione di base.','Il centro sanitario si impegna a pubblicare ogni trimestre il numero di trasporti effettuati.']},
+ ru:{title:'Машина скорой помощи для медицинского центра в Кумаси',summary:'Ближайшая клиника в 35 км. Оборудованная машина скорой помощи спасёт жизни в сезон дождей.',story:['Группа ганских врачей из Хьюстона собрала смету на проверенный подержанный автомобиль и его базовое оснащение.','Медицинский центр обязуется ежеквартально публиковать число выполненных перевозок.']},
+ zh:{title:'为库马西卫生中心购置一辆救护车',summary:'最近的诊所在 35 公里之外。配备齐全的救护车能在雨季挽救生命。',story:['休斯顿的一群加纳医生已取得一辆检修过的二手车及基础设备的报价。','卫生中心承诺每季度公布完成的转运次数。']}
+}
+};
+function localize(p){
+  const o=(p.i18n&&p.i18n[lang])||(SEED_TR[p.id]&&SEED_TR[p.id][lang])||(p.i18n&&lang!=='fr'?p.i18n.en:null);if(!o)return p;
+  const q=Object.assign({},p,o);
+  if(p.rewards)q.rewards=p.rewards.map((r,i)=>Object.assign({},r,(o.rewards||[])[i]));
+  return q;
+}
+function allProjects(){
+  const mine=store.get('sk_campaigns',[]).map(c=>{
+    const d=Math.max(0,Math.ceil((c.end-Date.now())/864e5));return Object.assign({},c,{days:d,mine:true})});
+  const pl=store.get('sk_pledges',[]);
+  return mine.concat(SEED.map(x=>({...x}))).map(p=>{
+    const mp=pl.filter(x=>x.pid===p.id);
+    p.raised+=mp.reduce((s,x)=>s+x.amt,0);p.backers+=mp.length;return localize(p)});
+}
+function cover(p,size){
+  const [a,b,c]=p.pal;let s;
+  const m=p.motif%4;
+  if(m===0)s=`<rect width='80' height='80' fill='${a}'/><circle cx='40' cy='40' r='32' fill='${b}'/><circle cx='40' cy='40' r='22' fill='${a}'/><circle cx='40' cy='40' r='11' fill='${c}'/>`;
+  else if(m===1)s=`<rect width='80' height='80' fill='${a}'/><path d='M40 4L76 40 40 76 4 40z' fill='${b}'/><path d='M40 22L58 40 40 58 22 40z' fill='${a}'/><circle cx='40' cy='40' r='6' fill='${c}'/>`;
+  else if(m===2)s=`<rect width='80' height='80' fill='${a}'/><path d='M0 40Q20 0 40 40T80 40' stroke='${b}' stroke-width='9' fill='none'/><path d='M0 66Q20 26 40 66T80 66' stroke='${c}' stroke-width='5' fill='none'/>`;
+  else s=`<rect width='80' height='80' fill='${a}'/><path d='M0 0H40V40H0zM40 40H80V80H40z' fill='${b}'/><circle cx='60' cy='20' r='13' fill='${c}'/><circle cx='20' cy='60' r='13' fill='${c}'/>`;
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'>${s}</svg>`;
+  return `background-color:${a};background-image:url("data:image/svg+xml,${encodeURIComponent(svg)}");background-size:${size||70}px`;
+}
+const pct=p=>Math.min(100,Math.round(p.raised/p.goal*100));
+const catName=k=>t(k==='reward'?'cat_reward':'cat_solidaire');
+function plk(n,b){
+  if(lang==='ru'){const m=n%10,h=n%100;if(m===1&&h!==11)return b+'1';if(m>=2&&m<=4&&(h<12||h>14))return b+'F';return b+'N'}
+  return b+(n===1?'1':'N');
+}
+function status(p){
+  if(p.days>0)return t(plk(p.days,'days'),{n:p.days});
+  return p.raised>=p.goal?t('reached'):t('ended');
+}
+const backersTxt=n=>t(plk(n,'backers'),{n});
+function card(p){
+  const isSeed=SEED.some(s=>s.id===p.id);
+  return `<a class="card" href="#projet-${esc(p.id)}">
+    <div class="cov" style="${cover(p)}"><span class="tag">${catName(p.type)}</span>${p.mine?`<span class="tag ex">${t('tag_mine')}</span>`:(isSeed?`<span class="tag ex">${t('tag_ex')}</span>`:'')}</div>
+    <div class="cb"><h3>${esc(p.title)}</h3>
+    <p class="by">${esc(p.by)} · ${esc(p.city)} (${esc(rname(p.res))}) → ${esc(cname(p.country))}</p>
+    <div class="prog" role="img" aria-label="${t('pct_aria',{p:pct(p)})}"><b style="width:${pct(p)}%"></b></div>
+    <div class="meta"><span><strong>${eur(p.raised)}</strong> ${t('of')} ${eur(p.goal)}</span><span>${pct(p)} %</span></div>
+    <div class="meta"><span>${backersTxt(p.backers)}</span><span>${status(p)}</span></div></div></a>`;
+}
+/* ---------- vues ---------- */
+function vHome(){
+  const ps=allProjects();
+  const feat=ps.filter(p=>p.days>0).sort((a,b)=>pct(b)-pct(a)).slice(0,6);
+  const hp={pal:['#0F4A38','#E9A820','#B8325A'],motif:0};
+  return `<section class="hero"><div>
+    <h1>${t('h_title')}</h1>
+    <p class="lead">${t('h_lead')}</p>
+    <div class="row"><a class="btn gold" href="#lancer">${t('nav_launch')}</a><a class="btn alt" href="#explorer">${t('h_cta2')}</a></div>
+    <div class="corr">${[['FR','SN'],['BE','CD'],['GB','NG'],['CA','CM'],['US','GH'],['AE','NG'],['CN','GH'],['DE','TG'],['AU','RW'],['BR','MA']].map(([r,c])=>`<span>${rname(r)} ⇄ ${cname(c)}</span>`).join('')}</div>
+  </div><div class="art" style="${cover(hp,96)}" role="img" aria-label="Wax"></div></section>
+  <section class="s"><div class="head"><h2>${t('sec_live')}</h2><a href="#explorer">${t('see_all')}</a></div><div class="grid">${feat.map(card).join('')}</div></section>
+  <section class="s"><div class="head"><h2>${t('ways')}</h2></div><div class="steps">
+    <div class="step"><h3>${t('w1_t')}</h3><p>${t('w1_d')}</p></div>
+    <div class="step"><h3>${t('w2_t')}</h3><p>${t('w2_d')}</p></div>
+    <div class="step"><h3>${t('w3_t')}</h3><p>${t('w3_d')}</p></div></div></section>`;
+}
+let F={type:'all',country:'all',q:''};
+function vExplore(){
+  const ps=allProjects().filter(p=>(F.type==='all'||p.type===F.type)&&(F.country==='all'||p.country===F.country)&&(!F.q||(p.title+p.summary+p.by+p.city).toLowerCase().includes(F.q.toLowerCase())));
+  const cs=['all'].concat(Array.from(new Set(allProjects().map(p=>p.country))));
+  return `<section class="s"><div class="head"><h2>${t('explore')}</h2></div>
+  <div class="row" style="margin-bottom:12px" role="group" aria-label="${t('f_type_aria')}">
+    ${[['all','f_all'],['reward','f_reward'],['solidaire','f_sol']].map(([k,l])=>`<button class="chip" data-act="ftype" data-v="${k}" aria-pressed="${F.type===k}">${t(l)}</button>`).join('')}</div>
+  <div class="row" style="margin-bottom:16px" role="group" aria-label="${t('f_country_aria')}">
+    ${cs.map(c=>`<button class="chip" data-act="fcountry" data-v="${esc(c)}" aria-pressed="${F.country===c}">${c==='all'?t('all_countries'):esc(cname(c))}</button>`).join('')}</div>
+  <label class="f" style="max-width:420px;margin-bottom:22px"><span>${t('search')}</span><input class="in" id="q" type="search" value="${esc(F.q)}" placeholder="${t('search_ph')}"></label>
+  ${ps.length?`<div class="grid">${ps.map(card).join('')}</div>`:`<div class="empty">${t('none')}</div>`}</section>`;
+}
+let sel={amt:25,rw:-1};
+function vProject(id){
+  const p=allProjects().find(x=>x.id===id);
+  if(!p)return `<div class="empty" style="margin-top:40px">${t('not_found')} <a href="#explorer">${t('back')}</a></div>`;
+  const open=p.days>0,res=defRes();
+  const rewards=p.type==='reward'?(p.rewards||[]):[];
+  const presets=p.presets||[10,25,50,100];
+  const donation=open?`<form id="donate" class="panel" novalidate>
+    <div><div class="big">${eur(p.raised)}</div><div class="hint">${t('collected',{g:eur(p.goal)})}</div></div>
+    <div class="prog"><b style="width:${pct(p)}%"></b></div>
+    <div class="meta"><span><strong>${p.backers}</strong> ${t('backers_lbl')}</span><span><strong>${status(p)}</strong></span></div>
+    ${rewards.length?`<div class="pay" role="group" aria-label="${t('rewards_aria')}">${rewards.map((r,i)=>`<button type="button" class="rw" data-act="rw" data-i="${i}" aria-pressed="${sel.rw===i}"><b>${eur(r.amt)} · ${esc(r.name)}</b><span class="hint">${esc(r.desc)}</span></button>`).join('')}</div>`
+    :`<div class="row">${presets.map(a=>`<button type="button" class="chip" data-act="preset" data-v="${a}" aria-pressed="${sel.amt===a}">${eur(a)}</button>`).join('')}</div>`}
+    <label class="f"><span>${t('amount')}</span><input class="in" id="amt" type="number" min="1" step="1" inputmode="numeric" value="${sel.amt}"></label>
+    ${p.type==='solidaire'?`<label class="f"><span>${t('tip_lbl')} <span class="hint">(${t('optional')})</span></span><select class="in" id="tip"><option value="0">0 %</option><option value="3">3 %</option><option value="5" selected>5 %</option><option value="8">8 %</option></select></label>`:''}
+    <label class="f"><span>${t('from')}</span><select class="in" id="res">${Object.keys(RES).map(c=>`<option value="${c}"${c===res?' selected':''}>${esc(rname(c))}</option>`).join('')}</select></label>
+    <label class="f"><span>${t('your_name')}</span><input class="in" id="nm" autocomplete="name" placeholder="${t('name_ph')}"></label>
+    <fieldset class="pay" style="border:0;padding:0;margin:0"><legend class="hint" style="margin-bottom:6px">${t('pay_method')}</legend>
+      ${pmList(res).map(([v,l],i)=>`<label><input type="radio" name="pm" value="${esc(v)}"${i===0?' checked':''}> ${esc(l)}</label>`).join('')}</fieldset>
+    <div class="mmbox" id="mmbox" hidden>
+      <label class="f"><span>${t('mm_op')}</span><select class="in" id="mmop">${ops(p.country).map(o=>`<option>${esc(o)}</option>`).join('')}</select></label>
+      <label class="f"><span>${t('mm_num')}</span><input class="in" id="mmnum" type="tel" inputmode="tel" autocomplete="tel" placeholder="${esc((CO[p.country]||CO.XX).dial)} …"></label>
+      <p class="hint">${t('mm_conv')}</p></div>
+    <p class="fam">${t('fam')}</p>
+    <div class="sum" id="sum"></div>
+    <button class="btn gold" type="submit">${t('contribute')}</button>
+    <p class="demo">${t('demo')}</p>
+  </form>`:`<div class="panel"><div class="big">${eur(p.raised)}</div><div class="hint">${t('collected',{g:eur(p.goal)})} · ${backersTxt(p.backers)}</div><div class="prog"><b style="width:${pct(p)}%"></b></div><p><strong>${status(p)}</strong></p></div>`;
+  const rule=p.type==='solidaire'?t('rule_sol'):(p.mode==='flex'?t('rule_flex'):t('rule_aon'));
+  return `<a href="#explorer" style="display:inline-block;margin-top:18px">${t('back')}</a>
+  <div class="dt"><article>
+    <div class="cov" style="${cover(p,90)}"><span class="tag">${catName(p.type)}</span></div>
+    <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);margin-top:20px">${esc(p.title)}</h1>
+    <p class="hint" style="margin-top:8px">${esc(p.by)} · ${esc(p.city)} (${esc(rname(p.res))}) → ${esc(cname(p.country))}</p>
+    <div class="demo" style="margin-top:14px">${rule}</div>
+    ${SEED.some(x=>x.id===p.id)?`<div class="demo" style="margin-top:10px;border:1.5px solid var(--gold)"><strong>${t('tag_ex')}</strong> · ${t('fictional')}</div>`:''}
+    <div class="story"><p style="font-size:1.1rem">${esc(p.summary)}</p>${(p.story||[]).map(s=>`<p>${esc(s)}</p>`).join('')}</div>${extras(p)}
+  </article><aside>${donation}</aside></div>`;
+}
+function vLaunch(){
+  return `<form class="form" id="launch" novalidate><div><h1 style="font-size:clamp(1.9rem,5vw,3rem)">${t('l_title')}</h1><p class="hint" style="margin-top:8px">${t('l_sub')}</p></div>
+  <div class="seg" role="radiogroup" aria-label="${t('f_type_aria')}">
+    <label class="rw" style="cursor:pointer"><input type="radio" name="type" value="reward" checked> <b>${t('cat_reward')}</b><span class="hint">${t('t_reward_d')}</span></label>
+    <label class="rw" style="cursor:pointer"><input type="radio" name="type" value="solidaire"> <b>${t('cat_solidaire')}</b><span class="hint">${t('t_sol_d')}</span></label></div>
+  <label class="f"><span>${t('f_title')}</span><input class="in" id="t" maxlength="90" placeholder="${t('f_title_ph')}"></label>
+  <label class="f"><span>${t('f_summary')}</span><input class="in" id="s" maxlength="180"></label>
+  <div class="two"><label class="f"><span>${t('f_by')}</span><input class="in" id="by"></label>
+  <label class="f"><span>${t('f_city')}</span><input class="in" id="city" ></label></div>
+  <label class="f"><span>${t('f_res')}</span><select class="in" id="lres">${Object.keys(RES).map(c=>`<option value="${c}"${c===defRes()?' selected':''}>${esc(rname(c))}</option>`).join('')}</select></label>
+  <div class="two"><label class="f"><span>${t('f_country')}</span><select class="in" id="co">${Object.keys(CO).map(c=>`<option value="${c}">${esc(cname(c))}</option>`).join('')}</select></label>
+  <label class="f"><span>${t('f_goal')}</span><input class="in" id="g" type="number" min="100" step="50" inputmode="numeric" value="5000"></label></div>
+  <div class="two"><label class="f"><span>${t('f_days')}</span><select class="in" id="d"><option>30</option><option>45</option><option>60</option></select></label>
+  <label class="f" id="modeRow"><span>${t('f_mode')}</span><select class="in" id="mode"><option value="aon">${t('m_aon')}</option><option value="flex">${t('m_flex')}</option></select></label></div>
+  <label class="f"><span>${t('f_story')}</span><textarea class="in" id="st" placeholder="${t('f_story_ph')}"></textarea></label>
+  <fieldset class="pay" style="border:0;padding:0;margin:0"><legend style="font-weight:600;margin-bottom:8px">${t('po_title')}</legend>
+    <label><input type="radio" name="po" value="iban" checked> ${t('po_iban')}</label>
+    <label><input type="radio" name="po" value="mm"> ${t('po_mm')}</label></fieldset>
+  <div id="po_iban"><label class="f"><span>${t('po_iban_l')}</span><input class="in" id="iban" autocomplete="off"></label></div>
+  <div class="mmbox" id="po_mm" hidden>
+    <label class="f"><span>${t('po_op')}</span><select class="in" id="po_op"></select></label>
+    <label class="f"><span>${t('po_num')}</span><input class="in" id="po_num" type="tel" inputmode="tel" autocomplete="off"></label></div>
+  <p class="demo">${t('fees_note')}</p>
+  <p id="err" class="hint" style="color:var(--hib)" role="alert"></p>
+  <button class="btn gold" type="submit">${t('publish')}</button></form>`;
+}
+function vHow(){
+  const rows=['tr1','tr2','tr3'].map(k=>`<tr>${t(k).map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+  return `<section class="s"><div class="head"><h1 style="font-size:clamp(1.9rem,5vw,3rem)">${t('how_title')}</h1></div>
+  <div class="steps">${[1,2,3,4].map(i=>`<div class="step"><h3>${t('hs'+i+'_t')}</h3><p>${t('hs'+i+'_d')}</p></div>`).join('')}</div></section>
+  <section class="s"><div class="head"><h2>${t('fees_title')}</h2></div><div class="tbl"><table>
+   <thead><tr><th>${t('th_type')}</th><th>${t('th_fee')}</th><th>${t('th_fail')}</th></tr></thead><tbody>${rows}</tbody></table></div>
+   <p class="hint" style="margin-top:10px">${t('fees_note2')}</p></section>`;
+}
+function me(){const id=store.get('sk_session',null);return store.get('sk_users',[]).find(u=>u.id===id)||null}
+async function sha(x){
+  try{const b=new TextEncoder().encode('srk:'+x);const h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(v=>v.toString(16).padStart(2,'0')).join('')}
+  catch(e){let h=5381;for(const c of 'srk:'+x)h=((h<<5)+h+c.charCodeAt(0))|0;return 'f'+h}
+}
+let authMode='signup';
+function vAuth(why){
+  const su=authMode==='signup';
+  return `<form class="form" id="auth" novalidate><div><h1 style="font-size:clamp(1.9rem,5vw,3rem)">${t(su?'acc_t_signup':'acc_t_login')}</h1><p class="hint" style="margin-top:8px">${t(why||'acc_why')}</p></div>
+  ${su?`<label class="f"><span>${t('acc_name')}</span><input class="in" id="an" autocomplete="name"></label>`:''}
+  <label class="f"><span>${t('acc_email')}</span><input class="in" id="ae" type="email" autocomplete="email" inputmode="email"></label>
+  <label class="f"><span>${t('acc_pass')}</span><input class="in" id="ap" type="password" autocomplete="${su?'new-password':'current-password'}"></label>
+  <p id="autherr" class="hint" style="color:var(--hib)" role="alert"></p>
+  <button class="btn gold" type="submit">${t(su?'acc_signup':'acc_login')}</button>
+  <p class="hint">${t(su?'acc_have':'acc_new')} <a href="#compte" data-act="goauth" data-v="${su?'login':'signup'}">${t(su?'acc_login':'acc_signup')}</a></p>
+  <p class="demo">${t('acc_demo')}</p></form>`;
+}
+async function authSubmit(){
+  const su=authMode==='signup',v=id=>($('#'+id)?String($('#'+id).value||''):'').trim(),err=k=>{const e=$('#autherr');if(e)e.textContent=t(k)};
+  const name=v('an'),email=v('ae').toLowerCase(),pass=$('#ap')?String($('#ap').value||''):'';
+  if(su&&!name)return err('err_name');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return err('err_email');
+  if(su&&pass.length<8)return err('err_pass');
+  const users=store.get('sk_users',[]),h=await sha(pass);let u;
+  if(su){if(users.some(x=>x.email===email))return err('err_exists');u={id:'u'+Date.now().toString(36),name,email,hash:h,created:Date.now()};users.push(u);store.set('sk_users',users)}
+  else{u=users.find(x=>x.email===email&&x.hash===h);if(!u)return err('err_login')}
+  store.set('sk_session',u.id);
+  const pl=store.get('sk_pledges',[]);pl.forEach(x=>{if(!x.uid)x.uid=u.id});store.set('sk_pledges',pl);
+  toast(t(su?'t_created':'t_in'));
+  if((location.hash||'')==='#compte')location.hash='#espace';else route(true);
+}
+function extras(p){
+  const u=me();
+  if(!u)return `<div class="demo" style="margin-top:22px;max-width:65ch;border:1.5px solid var(--gold)"><strong>${t('mem_t')}</strong><br>${t('mem_d')}<div class="row" style="margin-top:10px"><a class="btn sm" href="#compte" data-act="goauth" data-v="signup">${t('acc_signup')}</a><a class="btn sm alt" href="#compte" data-act="goauth" data-v="login">${t('acc_login')}</a></div></div>`;
+  const rows=p.type==='reward'?[['b_prod',62],['b_deliv',14],['b_fee',5],['b_pay',4],['b_res',15]]:[['b_direct',93],['b_pay',3],['b_follow',4]];
+  const ups=store.get('sk_updates',{})[p.id]||[];
+  const own=p.mine&&p.owner===u.id;
+  return `<section class="story" style="margin-top:26px"><h2>${t('bud_t')}</h2>
+    ${rows.map(([k,n])=>`<div style="display:grid;gap:4px"><div class="meta"><span>${t(k)}</span><strong>${n} % · ${eur(p.goal*n/100)}</strong></div><div class="prog"><b style="width:${n}%"></b></div></div>`).join('')}
+    <p class="hint">${t('bud_note')}</p></section>
+  <section class="story" style="margin-top:26px"><h2>${t('upd_t')}</h2>
+    ${ups.length?ups.map(x=>`<div class="step"><span class="hint">${new Date(x.date).toLocaleDateString(LOC[lang])}</span><p style="color:var(--ink)">${esc(x.text)}</p></div>`).join(''):`<p class="hint">${t('upd_none')}</p>`}
+    ${own?`<form id="updform" style="display:grid;gap:10px"><textarea class="in" id="upd" placeholder="${t('upd_ph')}"></textarea><div><button class="btn sm" type="submit">${t('upd_post')}</button></div></form>`:''}</section>`;
+}
+function vSpace(){
+  const u=me();if(!u)return vAuth();
+  const all=allProjects(),pl=store.get('sk_pledges',[]).map((x,i)=>Object.assign({i},x)).filter(x=>x.uid===u.id);
+  const cs=all.filter(p=>p.mine&&(p.owner===u.id||!p.owner));
+  const steps=['st0','st1','st2','st3'];
+  const trk=pl.filter(x=>x.ri>=0).map(x=>{
+    const p=all.find(q=>q.id===x.pid),r=p&&p.rewards&&p.rewards[x.ri];if(!p||!r)return '';const sg=x.stage||0;
+    return `<div class="step" style="gap:12px"><h3>${esc(r.name)}</h3><p class="hint">${esc(p.title)}</p>
+      <div class="trk">${steps.map((k,j)=>`<div class="${j<=sg?'on':''}">${t(k)}</div>`).join('')}</div>
+      ${sg<2?`<label class="f"><span>${t('addr_lbl')}</span><textarea class="in" id="addr-${x.i}" placeholder="${t('addr_ph')}">${esc(x.addr||'')}</textarea></label><button class="btn sm alt" type="button" data-act="saveaddr" data-i="${x.i}">${t('addr_save')}</button>`:(x.addr?`<p class="hint">${esc(x.addr)}</p>`:'')}
+      ${sg<3?`<div><button class="chip" type="button" data-act="adv" data-i="${x.i}">${t('st_adv')}</button></div>`:''}</div>`}).join('');
+  const rows=pl.map(x=>{const p=all.find(q=>q.id===x.pid);return `<tr><td>${new Date(x.date).toLocaleDateString(LOC[lang])}</td><td><a href="#projet-${esc(x.pid)}">${esc(p?p.title:x.pid)}</a></td><td>${eur2(x.amt)}</td><td>${esc(x.pm)}</td></tr>`}).join('');
+  return `<section class="s"><div class="head"><div><h1 style="font-size:clamp(1.9rem,5vw,3rem)">${t('sp_title')}</h1><p class="hint" style="margin-top:6px">${t('hello',{n:esc(u.name)})} · ${esc(u.email)}</p></div><button class="btn sm alt" type="button" data-act="logout">${t('acc_logout')}</button></div>
+  <h2 style="margin-bottom:14px">${t('trk_t')}</h2>
+  ${trk?`<div class="steps">${trk}</div>`:`<div class="empty">${t('trk_none')}</div>`}
+  <h2 style="margin:34px 0 14px">${t('my_c')}</h2>
+  ${cs.length?`<div class="grid">${cs.map(card).join('')}</div>`:`<div class="empty">${t('no_c')} <a href="#lancer">${t('start')}</a></div>`}
+  <h2 style="margin:34px 0 14px">${t('my_p')}</h2>
+  ${pl.length?`<div class="tbl"><table><thead><tr><th>${t('th_date')}</th><th>${t('th_proj')}</th><th>${t('th_amt')}</th><th>${t('th_pay')}</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="empty">${t('no_p')} <a href="#explorer">${t('discover')}</a></div>`}
+  <p class="hint" style="margin-top:14px">${t('local')}</p></section>`;
+}
+function foot(){return `<footer class="foot"><strong>SarakaFund</strong><span>${t('foot')}</span></footer>`}
+/* ---------- routeur ---------- */
+function chrome(key){
+  const L=[['accueil','nav_home','tab_home'],['explorer','nav_explore','tab_explore'],['comment','nav_how'],['espace','nav_space','tab_space']];
+  $('#nav').innerHTML=L.map(([r,n])=>`<a href="#${r}" data-r="${r}">${t(n)}</a>`).join('')+`<a class="btn sm" href="#lancer" style="margin-left:8px">${t('nav_launch')}</a>`;
+  const ic={
+   accueil:'<path d="M3 11l9-8 9 8v10H3z"/>',explorer:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+   lancer:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',espace:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/>'};
+  $('#tabs').innerHTML=[['accueil','tab_home'],['explorer','tab_explore'],['lancer','tab_launch'],['espace','tab_space']].map(([r,k])=>`<a href="#${r}" data-r="${r}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic[r]}</svg>${t(k)}</a>`).join('');
+  $('#lang').value=lang;$('#lang').setAttribute('aria-label',t('aria_lang'));
+  document.querySelectorAll('[data-r]').forEach(a=>a.getAttribute('data-r')===key?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+}
+function route(keepScroll){
+  const h=(location.hash||'#accueil').slice(1);let html,key;
+  if(h.startsWith('projet-')){key='explorer';html=vProject(h.slice(7))}
+  else if(h==='explorer'){key=h;html=vExplore()}
+  else if(h==='lancer'){key=h;html=me()?vLaunch():vAuth('need_launch')}
+  else if(h==='compte'){key='espace';html=vAuth()}
+  else if(h==='comment'){key=h;html=vHow()}
+  else if(h==='espace'){key=h;html=vSpace()}
+  else{key='accueil';html=vHome()}
+  document.documentElement.lang=lang;
+  chrome(key);
+  $('#app').innerHTML=html+foot();
+  if(!keepScroll)window.scrollTo(0,0);
+  if(h.startsWith('projet-'))updateSum();
+  if(h==='lancer')fillPayout();
+}
+function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;e.setAttribute('role','status');document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+function curProject(){return allProjects().find(x=>x.id===(location.hash||'').slice(8))}
+function updateSum(){
+  const s=$('#sum');if(!s)return;
+  const a=Math.max(0,parseFloat($('#amt').value)||0),tp=$('#tip')?parseFloat($('#tip').value):0,tip=Math.round(a*tp)/100;
+  const cc=(RES[defRes()]||RES.FR).ccy;
+  s.innerHTML=`<div><span>${t('contribution')}</span><span>${eur2(a)}</span></div>${$('#tip')?`<div><span>${t('tip_line')}</span><span>${eur2(tip)}</span></div>`:''}<div style="font-weight:700"><span>${t('total')}</span><span>${eur2(a+tip)}</span></div>${cc!=='EUR'?`<div class="hint"><span>≈ ${esc(cc)}</span><span>${money((a+tip)*RATE[cc],cc)}</span></div>`:''}<p class="hint">${t('ccy_note')}</p>`;
+}
+function fillPayout(){
+  const sel2=$('#po_op'),co=$('#co');if(!sel2||!co)return;
+  sel2.innerHTML=ops(co.value).map(o=>`<option>${esc(o)}</option>`).join('');
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const act=b.dataset.act;
+  if(act==='ftype'){F.type=b.dataset.v;route(true)}
+  else if(act==='fcountry'){F.country=b.dataset.v;route(true)}
+  else if(act==='preset'){sel.amt=+b.dataset.v;sel.rw=-1;route(true)}
+  else if(act==='rw'){const p=curProject(),r=p.rewards[+b.dataset.i];sel.rw=+b.dataset.i;sel.amt=r.amt;route(true)}
+  else if(act==='goauth'){authMode=b.dataset.v;if(document.querySelector('#auth')){e.preventDefault();route(true)}}
+  else if(act==='logout'){store.set('sk_session',null);route(true);toast(t('t_out'))}
+  else if(act==='adv'){const pl=store.get('sk_pledges',[]),x=pl[+b.dataset.i];if(x){x.stage=Math.min(3,(x.stage||0)+1);store.set('sk_pledges',pl);route(true)}}
+  else if(act==='saveaddr'){const pl=store.get('sk_pledges',[]),x=pl[+b.dataset.i],f=$('#addr-'+b.dataset.i);if(x&&f){x.addr=String(f.value||'').trim();store.set('sk_pledges',pl);toast(t('addr_ok'))}}
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='q'){F.q=e.target.value;const pos=e.target.selectionStart;route(true);const q=$('#q');q.focus();q.setSelectionRange(pos,pos)}
+  if(e.target.id==='amt'||e.target.id==='tip'){updateSum()}
+});
+document.addEventListener('change',e=>{
+  const n=e.target;
+  if(n.id==='lang'){lang=n.value;store.set('sk_lang',lang);route(true);return}
+  if(n.id==='res'){const a=parseFloat($('#amt').value);if(a>0)sel.amt=a;store.set('sk_res',n.value);route(true);return}
+  if(n.name==='type'&&$('#modeRow'))$('#modeRow').hidden=n.value==='solidaire';
+  if(n.name==='pm'&&$('#mmbox'))$('#mmbox').hidden=n.value!=='MM';
+  if(n.name==='po'){$('#po_iban').hidden=n.value!=='iban';$('#po_mm').hidden=n.value!=='mm'}
+  if(n.id==='co')fillPayout();
+});
+document.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(e.target.id==='auth'){authSubmit();return}
+  if(e.target.id==='updform'){const f=$('#upd'),txt=f?String(f.value||'').trim():'',pr=curProject(),us=me();if(!txt||!pr||!us)return;const all=store.get('sk_updates',{});(all[pr.id]=all[pr.id]||[]).unshift({date:Date.now(),text:txt,uid:us.id});store.set('sk_updates',all);route(true);toast(t('upd_ok'));return}
+  if(e.target.id==='donate'){
+    const p=curProject(),a=Math.round(parseFloat($('#amt').value)||0);
+    if(a<1){toast(t('min_amt'));return}
+    const ck=document.querySelector('input[name=pm]:checked');let pm=ck?ck.parentNode.textContent.trim():'';
+    if(ck&&ck.value==='MM'){
+      if(!phoneOk($('#mmnum').value)){toast(t('bad_phone'));return}
+      pm=t('pm_mm')+' · '+$('#mmop').value;
+    }
+    const ri=(p.type==='reward'&&sel.rw>=0)?sel.rw:-1,u=me();
+    const pl=store.get('sk_pledges',[]);pl.push({pid:p.id,amt:a,pm,date:Date.now(),uid:u?u.id:null,ri,stage:0,addr:''});store.set('sk_pledges',pl);
+    sel={amt:25,rw:-1};route(true);toast(t(!u&&ri>=0?'thanks_acc':'thanks'));
+  }
+  if(e.target.id==='launch'){
+    const v=id=>($('#'+id).value||'').trim(),type=document.querySelector('input[name=type]:checked').value;
+    const g=parseInt(v('g'),10),po=document.querySelector('input[name=po]:checked').value;
+    if(!v('t')||!v('s')||!v('by')||!v('city')||!(g>=100)||!v('st')){$('#err').textContent=t('err_fields');return}
+    if(po==='iban'&&v('iban').replace(/\s/g,'').length<8){$('#err').textContent=t('err_iban');return}
+    if(po==='mm'&&!phoneOk(v('po_num'))){$('#err').textContent=t('err_mm');return}
+    const days=parseInt(v('d'),10),id='c'+Date.now().toString(36),
+      pal=[['#0F4A38','#E9A820','#B8325A'],['#162B4A','#E9A820','#D9483B'],['#3B1F5C','#E9A820','#F0F0E8'],['#5B2A1A','#E9A820','#0F4A38']][Date.now()%4];
+    const c={id,type,mode:type==='reward'?v('mode'):null,title:v('t'),summary:v('s'),by:v('by'),city:v('city'),res:v('lres'),owner:(me()||{}).id||null,country:v('co'),goal:g,raised:0,backers:0,end:Date.now()+days*864e5,pal,motif:Date.now()%4,story:v('st').split(/\n+/),
+      payout:po==='mm'?'mobile money · '+v('po_op'):'IBAN',
+      rewards:type==='reward'?[{amt:10,name:t('dr1_n'),desc:t('dr1_d')},{amt:40,name:t('dr2_n'),desc:t('dr2_d')}]:undefined,presets:type==='solidaire'?[10,25,50,100]:undefined};
+    const cs=store.get('sk_campaigns',[]);cs.push(c);store.set('sk_campaigns',cs);
+    location.hash='#projet-'+id;toast(t('published'));
+  }
+});
+window.addEventListener('hashchange',()=>route());
+route();
+try{if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register('sw.js').catch(function(){})}}catch(e){}
+})();
+</script>
+
+</html>
